@@ -422,7 +422,7 @@ function seed(){
         {name:'Community Night #2', date:'2026-08-25T19:00', status:'ARCHIVED', attendees:93, checkedIn:78}
       ],
       team:[
-        {name:'Belal Elgebaly', email:'belal@incircle.community', role:'OWNER'},
+        {name:'Mohamed Elkholi', email:'kholi@incircle.community', role:'OWNER'},
         {name:'Nour Hassan', email:'nour@incircle.community', role:'ADMIN'},
         {name:'Omar Farid', email:'omar@incircle.community', role:'OPERATOR'},
         {name:'Mariam Adel', email:'mariam@incircle.community', role:'OPERATOR'}
@@ -482,15 +482,15 @@ function sset(k,v){ MEM[k]=v; try{ localStorage.setItem(k,v); }catch(e){} try{ s
 function sdel(k){ delete MEM[k]; try{ localStorage.removeItem(k); }catch(e){} try{ sessionStorage.removeItem(k); }catch(e){} }
 
 var DB = null;
-function syncLogos(d){
+function syncStatic(d){
   var fresh = seed().brands, byId = {};
   fresh.forEach(function(b){ byId[b.id]=b; });
-  d.brands.forEach(function(b){ if(byId[b.id] && byId[b.id].logo!==b.logo) b.logo=byId[b.id].logo; });
+  d.brands.forEach(function(b){ var f=byId[b.id]; if(!f) return; b.logo=f.logo; b.team=f.team; b.name=f.name; b.link=f.link; });
 }
 function load(){
   try{
     var raw = sget(STORE_KEY);
-    if(raw){ var d = JSON.parse(raw); if(d && d.v===2 && d.brands){ syncLogos(d); return d; } }
+    if(raw){ var d = JSON.parse(raw); if(d && d.v===2 && d.brands){ syncStatic(d); return d; } }
   }catch(e){}
   var s = seed();
   sset(STORE_KEY, JSON.stringify(s));
