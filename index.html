@@ -143,7 +143,8 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 #gate .panel::before{content:"";position:absolute;inset:-240px -340px;z-index:-1;border-radius:999px;background:radial-gradient(closest-side,rgba(255,255,255,.66) 0%,rgba(255,255,255,.42) 45%,rgba(255,255,255,0) 100%)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 #gate .eyebrow{font-size:12px;margin-bottom:18px}
-#gate .h1{font-size:clamp(34px,3vw,40px);margin-bottom:32px}
+#gate .h1{font-size:clamp(34px,3vw,40px);margin-bottom:10px}
+#gate .lede{font:500 16px/1.5 var(--sans);color:var(--sub);margin-bottom:32px}
 #gate .field,#gate .btn.wide{height:52px}
 .btn.wide{width:100%}
 #pw{font-family:var(--mono);letter-spacing:.14em}
@@ -307,8 +308,9 @@ td .status{white-space:nowrap}
   <div class="gate-scroll">
     <div class="scene">
       <div class="panel">
-        <div class="eyebrow">Dotment · Internal</div>
+        <div class="eyebrow">Dotment platform</div>
         <h1 class="h1">Control Center<span class="period">.</span></h1>
+        <p class="lede">Welcome back.</p>
         <form id="gateForm" novalidate>
           <label class="sr-only" for="pw">Password</label>
           <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Enter your password" spellcheck="false">
