@@ -95,14 +95,13 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 .dot.empty{background:transparent;border:1.5px solid var(--ink)}
 .status{display:inline-flex;align-items:center;gap:9px;font:300 12px/1 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
 .status .dot{width:9px;height:9px}
+.logo{height:72px;max-width:200px;display:flex;align-items:center;flex:none}
+.logo img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:left center}
+.logo.lg{height:96px;max-width:260px}
 .face{width:96px;height:96px;border-radius:999px;background:var(--canvas);display:flex;align-items:center;justify-content:center;flex:none}
-.face .plate{width:72px;height:72px;border-radius:999px;background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.face .plate img{width:66px;height:66px;object-fit:contain}
-.face .plate .mono-letter{font:800 26px/1 var(--sans);letter-spacing:-0.02em}
+.face .mono-letter{font:800 30px/1 var(--sans);letter-spacing:-0.02em}
 .face.lg{width:120px;height:120px}
-.face.lg .plate{width:92px;height:92px}
-.face.lg .plate img{width:86px;height:86px}
-.face.lg .plate .mono-letter{font-size:34px}
+.face.lg .mono-letter{font-size:38px}
 
 /* ---------- screens ---------- */
 .screen{opacity:1;transition:opacity .45s var(--ease),transform .45s var(--ease)}
@@ -110,27 +109,28 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 .screen.in{opacity:0;transform:translateY(6px)}
 @media (prefers-reduced-motion:reduce){*{transition-duration:0.01ms!important;animation-duration:0.01ms!important}}
 
-/* gate */
-#gate{position:fixed;inset:0;background:var(--ink);color:var(--paper);overflow:hidden;background-image:radial-gradient(circle,#FFFFFF 2px,transparent 2.6px);background-size:20px 20px;background-position:10px 10px}
-#gate .stray{position:absolute;background:var(--cyan);border-radius:999px}
-#gate .stray.dash{width:4px;height:30px;transform:rotate(45deg);left:27%;top:23%}
-#gate .stray.pt{width:5px;height:5px;left:63%;top:71%}
-#gate .hero{position:absolute;width:56vmin;height:56vmin;border-radius:999px;background:var(--cyan);right:-16vmin;bottom:-18vmin}
-#gate .top{position:absolute;left:40px;top:32px;display:flex;flex-direction:column;gap:12px;background:var(--ink);padding:16px 16px 18px}
-#gate .top .eyebrow{color:var(--paper)}
-#gate .bottom{position:absolute;left:40px;bottom:28px;background:var(--ink);padding:16px;font:300 11px/1 var(--sans);letter-spacing:0.14em;color:var(--ph);text-transform:uppercase}
-#gate .panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:440px;background:var(--ink);border-radius:24px;padding:40px 44px 44px}
-#gate .h1{color:var(--paper);margin-bottom:8px}
-#gate .lede{font:500 16px/1.55 var(--sans);color:var(--ph);margin-bottom:32px}
-#gate .field{background:var(--ink);color:var(--paper);border-color:var(--muted)}
+/* gate · Scene 02 · Black Moment */
+#gate{position:fixed;inset:0;background:var(--ink);color:var(--paper);padding:clamp(40px,7.4vmin,80px);display:flex;flex-direction:column;overflow:auto}
+#gate .scene{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;text-align:center}
+#gate .zone{width:100%;max-width:440px}
+#gate .eyebrow{color:var(--ph);margin-bottom:28px}
+#gate .h1{color:var(--paper);margin-bottom:12px}
+#gate .lede{font:500 18px/1.5 var(--sans);color:var(--ph);margin-bottom:40px}
+#gate .label{color:#C9CBCD;text-align:left}
+#gate .field{background:var(--dark-card);border-color:var(--dark-hair);color:var(--paper)}
+#gate .field::placeholder{color:var(--muted)}
 #gate .field:focus{border-color:var(--paper)}
 #gate .field.err{border-color:var(--err)}
 #gate .field.err:focus{outline-color:var(--err)}
 #pw{font-family:var(--mono);letter-spacing:0.12em}
 #pw::placeholder{font-family:var(--sans);letter-spacing:0}
-#gate .note{min-height:20px;font:500 13px/1.5 var(--sans);color:var(--err);margin:10px 0 18px;opacity:0;transition:opacity .18s var(--ease)}
+#gate .note{min-height:20px;font:500 13px/1.5 var(--sans);color:var(--err);margin:10px 0 22px;opacity:0;transition:opacity .18s var(--ease);text-align:left}
 #gate .note.show{opacity:1}
-#gate .btn{width:100%}
+#gate .burst{flex:none;width:clamp(160px,22vmin,220px);aspect-ratio:1}
+#gate .burst svg{display:block;width:100%;height:100%}
+#gate .rail{display:flex;justify-content:space-between;align-items:baseline;padding-top:32px}
+#gate .rail .site{font:300 11px/1 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:var(--ph)}
+@media (max-width:760px){#gate .burst{width:140px}}
 
 /* app frame */
 #app{min-height:100vh;display:flex;flex-direction:column}
@@ -226,7 +226,7 @@ td.name{font-weight:700}
 .sw .c{width:56px;height:56px;border-radius:999px;border:1px solid var(--hair)}
 .sw .k{font:300 11px/1.3 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
 .sw .v{font:400 13px/1 var(--mono)}
-.brand-id{display:flex;align-items:center;gap:20px;margin-bottom:24px}
+.brand-id{display:flex;align-items:center;gap:24px;margin-bottom:24px;flex-wrap:wrap}
 .brand-id .name{font:700 20px/1.3 var(--sans)}
 .brand-id .cap{margin-top:4px}
 .caption{font:500 13px/1.5 var(--sans);color:var(--muted);margin-top:24px}
@@ -244,22 +244,21 @@ td.name{font-weight:700}
 <body>
 
 <section id="gate" hidden>
-  <div class="stray dash"></div>
-  <div class="stray pt"></div>
-  <div class="hero"></div>
-  <div class="top">
-    <div class="wordmark">Dotment</div>
-    <div class="eyebrow">Platform Control Center</div>
+  <div class="scene">
+    <div class="burst" id="burst" aria-hidden="true"></div>
+    <div class="zone">
+      <div class="eyebrow">Platform Control Center</div>
+      <h1 class="h1">Nice to see you<span class="period">.</span></h1>
+      <p class="lede">The console above every workspace.</p>
+      <form id="gateForm" novalidate>
+        <label class="label" for="pw">Password</label>
+        <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Your console password" spellcheck="false">
+        <div class="note" id="gateNote">That's not it. Try again.</div>
+        <button class="btn cyan" type="submit">Enter</button>
+      </form>
+    </div>
   </div>
-  <form class="panel" id="gateForm" novalidate>
-    <h1 class="h1">Nice to see you<span class="period">.</span></h1>
-    <p class="lede">The console above every workspace.</p>
-    <label class="label" for="pw" style="color:#C9CBCD">Password</label>
-    <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Your console password" spellcheck="false">
-    <div class="note" id="gateNote">That's not it. Try again.</div>
-    <button class="btn cyan" type="submit">Enter</button>
-  </form>
-  <div class="bottom">©2026 · Dotment.com</div>
+  <div class="rail"><span class="site">Dotment.com</span><span class="wordmark">Dotment</span></div>
 </section>
 
 <div id="app" hidden>
@@ -291,6 +290,7 @@ td.name{font-weight:700}
 var PASSWORD = '121211';
 var STORE_KEY = 'dotment-control-center';
 var COOKIE = 'dcc_session';
+var SESSION_KEY = 'dotment-control-center-session';
 var ME = 'kholi@dotment.com';
 
 var TZ_CITY = {'Africa/Cairo':'Cairo','Asia/Dubai':'Dubai','Europe/London':'London'};
@@ -433,7 +433,7 @@ function seed(){
       branding:{colors:{canvas:'#F0F8FC', ink:'#1A1A1A', accent:'#9EBBF1', card:'#FFFFFF', muted:'#8A9093'}, font:'Gilroy', placement:{phones:true, bigscreen:true, join:true, emails:true}}
     },
     {
-      id:'snbc', name:'SNBC Bank', slug:'snbc', link:'https://snbc.dotment.com', logo:null,
+      id:'snbc', name:'SNBC Bank', slug:'snbc', link:'https://snbc.dotment.com', logo:'assets/logos/snbc.png',
       plan:'Growth', status:'ACTIVE', prevStatus:null,
       access:{period:'Monthly', renews:'2026-10-01', lapsed:false},
       timezone:'Africa/Cairo', roster:140,
@@ -451,7 +451,7 @@ function seed(){
       branding:{colors:{canvas:'#F4F1EA', ink:'#141414', accent:'#1F4E79', card:'#FFFFFF', muted:'#7A7F84'}, font:'Brand upload', placement:{phones:true, bigscreen:true, join:true, emails:false}}
     },
     {
-      id:'hsa', name:'HSA', slug:'hsa', link:'https://hsa.dotment.com', logo:null,
+      id:'hsa', name:'HSA', slug:'hsa', link:'https://hsa.dotment.com', logo:'assets/logos/hsa.png',
       plan:'Starter', status:'TRIAL', prevStatus:null,
       access:{period:'Per agreement', renews:'2026-11-30', lapsed:false},
       timezone:'Asia/Dubai', roster:60,
@@ -471,24 +471,40 @@ function seed(){
 }
 
 /* ---------------- store ---------------- */
+/* localStorage first, sessionStorage second, memory last. Every write goes to all that accept it. */
+var MEM = {};
+function sget(k){
+  try{ var v=localStorage.getItem(k); if(v!=null) return v; }catch(e){}
+  try{ var w=sessionStorage.getItem(k); if(w!=null) return w; }catch(e){}
+  return MEM[k]!=null ? MEM[k] : null;
+}
+function sset(k,v){ MEM[k]=v; try{ localStorage.setItem(k,v); }catch(e){} try{ sessionStorage.setItem(k,v); }catch(e){} }
+function sdel(k){ delete MEM[k]; try{ localStorage.removeItem(k); }catch(e){} try{ sessionStorage.removeItem(k); }catch(e){} }
+
 var DB = null;
+function syncLogos(d){
+  var fresh = seed().brands, byId = {};
+  fresh.forEach(function(b){ byId[b.id]=b; });
+  d.brands.forEach(function(b){ if(byId[b.id] && byId[b.id].logo!==b.logo) b.logo=byId[b.id].logo; });
+}
 function load(){
   try{
-    var raw = localStorage.getItem(STORE_KEY);
-    if(raw){ var d = JSON.parse(raw); if(d && d.v===2 && d.brands) return d; }
+    var raw = sget(STORE_KEY);
+    if(raw){ var d = JSON.parse(raw); if(d && d.v===2 && d.brands){ syncLogos(d); return d; } }
   }catch(e){}
   var s = seed();
-  try{ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }catch(e){}
+  sset(STORE_KEY, JSON.stringify(s));
   return s;
 }
-function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(DB)); }catch(e){} }
-function save(){ persist(); toast('Saved. Nice one.'); }
+function persist(){ sset(STORE_KEY, JSON.stringify(DB)); }
+function save(){ persist(); toast('Saved'); }
 function brand(id){ for(var i=0;i<DB.brands.length;i++) if(DB.brands[i].id===id) return DB.brands[i]; return null; }
 
-/* ---------------- cookie ---------------- */
-function hasCookie(){ return document.cookie.split(';').some(function(c){ return c.trim().indexOf(COOKIE+'=')===0; }); }
-function setCookie(){ document.cookie = COOKIE+'=1; path=/; max-age=2592000; SameSite=Lax'; }
-function clearCookie(){ document.cookie = COOKIE+'=; path=/; max-age=0; SameSite=Lax'; }
+/* ---------------- session · cookie plus storage, either one keeps you in ---------------- */
+function hasCookie(){ try{ return document.cookie.split(';').some(function(c){ return c.trim().indexOf(COOKIE+'=')===0; }); }catch(e){ return false; } }
+function signedIn(){ return hasCookie() || sget(SESSION_KEY)==='1'; }
+function signIn(){ try{ document.cookie = COOKIE+'=1; path=/; max-age=31536000; SameSite=Lax'; }catch(e){} sset(SESSION_KEY,'1'); }
+function signOut(){ try{ document.cookie = COOKIE+'=; path=/; max-age=0; SameSite=Lax'; }catch(e){} sdel(SESSION_KEY); }
 
 /* ---------------- helpers ---------------- */
 function esc(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -514,8 +530,8 @@ function accessLine(b){
 function statusDot(st){ return st==='ACTIVE' ? '<span class="dot"></span>' : st==='TRIAL' ? '<span class="dot ink"></span>' : '<span class="dot empty"></span>'; }
 function statusLine(st){ return '<span class="status">'+statusDot(st)+esc(st)+'</span>'; }
 function plateHTML(b, lg){
-  var inner = b.logo ? '<img src="'+esc(b.logo)+'" alt="'+esc(b.name)+'">' : '<span class="mono-letter">'+esc(b.name.charAt(0))+'</span>';
-  return '<div class="face'+(lg?' lg':'')+'"><div class="plate">'+inner+'</div></div>';
+  if(b.logo) return '<div class="logo'+(lg?' lg':'')+'"><img src="'+esc(b.logo)+'" alt="'+esc(b.name)+'"></div>';
+  return '<div class="face'+(lg?' lg':'')+'"><span class="mono-letter">'+esc(b.name.charAt(0))+'</span></div>';
 }
 function tierChip(t){ return '<span class="chip'+(t==='PLUS'?' outline':t==='PREMIUM'?' cyan':'')+'">'+t+'</span>'; }
 function roleChip(r){ return '<span class="chip'+(r==='OWNER'?' ink':r==='ADMIN'?' outline':'')+'">'+r+'</span>'; }
@@ -681,7 +697,7 @@ function panelAccess(b){
 function panelBranding(b){
   var c=b.branding.colors;
   var h='<div class="stack"><div class="grid g2">';
-  h+='<div class="card pad"><div class="brand-id">'+plateHTML(b)+'<div><div class="name">'+esc(b.name)+'</div><div class="cap">Logo plate</div></div></div>'
+  h+='<div class="card pad"><div class="brand-id">'+plateHTML(b)+'<div><div class="name">'+esc(b.name)+'</div><div class="cap">Logo</div></div></div>'
     +'<label class="label" for="brandFont">Font</label><select class="field" id="brandFont" data-branding="font">'
     +['Gilroy','Brand upload','Inter'].map(function(f){ return '<option'+(b.branding.font===f?' selected':'')+'>'+f+'</option>'; }).join('')
     +'</select>'
@@ -702,7 +718,7 @@ document.getElementById('gateForm').addEventListener('submit', function(ev){
   ev.preventDefault();
   var pw=document.getElementById('pw'), note=document.getElementById('gateNote');
   if(pw.value===PASSWORD){
-    setCookie(); pw.classList.remove('err'); note.classList.remove('show');
+    signIn(); pw.classList.remove('err'); note.classList.remove('show');
     swap(gateEl, appEl, function(){ route(); window.scrollTo(0,0); });
   }else{
     pw.classList.add('err'); note.classList.add('show'); pw.select();
@@ -711,7 +727,7 @@ document.getElementById('gateForm').addEventListener('submit', function(ev){
 document.getElementById('pw').addEventListener('input', function(){ this.classList.remove('err'); document.getElementById('gateNote').classList.remove('show'); });
 
 document.getElementById('signOut').addEventListener('click', function(){
-  clearCookie();
+  signOut();
   swap(appEl, gateEl, function(){ document.getElementById('pw').value=''; document.getElementById('pw').classList.remove('err'); document.getElementById('gateNote').classList.remove('show'); setTimeout(function(){ document.getElementById('pw').focus(); },60); });
 });
 
@@ -788,9 +804,21 @@ function refreshSegmentChrome(b){
   });
 }
 
+/* ---------------- halftone burst · F14 ---------------- */
+function burstSVG(){
+  var rings=[[26,9,11],[52,16,9],[78,20,7],[104,26,5],[130,30,3.5]]; /* radius, dots, diameter */
+  var out='<svg viewBox="-150 -150 300 300" xmlns="http://www.w3.org/2000/svg"><circle r="9" fill="#75E2FF"/>';
+  rings.forEach(function(r){
+    for(var i=0;i<r[1];i++){ var an=(i/r[1])*Math.PI*2-Math.PI/2;
+      out+='<circle cx="'+(Math.cos(an)*r[0]).toFixed(2)+'" cy="'+(Math.sin(an)*r[0]).toFixed(2)+'" r="'+(r[2]/2)+'" fill="#75E2FF"/>'; }
+  });
+  return out+'</svg>';
+}
+document.getElementById('burst').innerHTML=burstSVG();
+
 /* ---------------- boot ---------------- */
 DB=load();
-if(hasCookie()) showApp(); else showGate();
+if(signedIn()) showApp(); else showGate();
 })();
 </script>
 </body>
