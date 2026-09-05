@@ -517,10 +517,6 @@ function fmtTime(iso){ var p=parts(iso); if(!p||p.h==null) return ''; var h=p.h%
 function fmtEvent(iso, tz){ var t=fmtTime(iso); return fmtDay(iso)+(t?' · '+t:'')+' · '+(TZ_CITY[tz]||'Local')+' Time'; }
 function cityTime(tz){ return (TZ_CITY[tz]||'Local')+' Time'; }
 function segCount(b){ var n=0; SEGS.forEach(function(s){ if(b.segments[s.id]) n++; }); return n; }
-function nextEvent(b){
-  var up = b.events.filter(function(e){ return e.status!=='ARCHIVED'; }).sort(function(a,c){ return a.date<c.date?-1:1; });
-  return up[0]||null;
-}
 function accessLine(b){
   var a=b.access, s=a.period;
   if(a.lapsed) return s+' · lapsed';
@@ -595,14 +591,13 @@ function renderBrands(){
     +'</div>';
   h+='<div class="grid g3">';
   DB.brands.forEach(function(b){
-    var ne=nextEvent(b);
     h+='<article class="card brand" data-brand="'+esc(b.id)+'">'
       +plateHTML(b)
       +'<div class="name">'+esc(b.name)+'</div>'
       +'<div>'+statusLine(b.status)+'</div>'
       +'<div class="kv">'
         +kv('Plan', esc(b.plan))
-        +kv('Next event', ne ? esc(fmtDay(ne.date)+' · '+fmtTime(ne.date)) : 'Not booked yet')
+        +kv('Access', esc(b.access.period))
         +kv('Segments', segCount(b)+' / '+SEGS.length)
       +'</div>'
       +'<div class="actions">'
