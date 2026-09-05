@@ -46,7 +46,6 @@ img{display:block;max-width:100%}
 .eyebrow{font:300 14px/1.2 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .cap{font:300 12px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .h1{font:800 clamp(38px,4.2vw,56px)/1.06 var(--sans);letter-spacing:-.015em}
-.h1.xl{font-size:clamp(44px,5.2vw,68px)}
 .h2{font:800 32px/1.1 var(--sans);letter-spacing:-.01em}
 .sub{font:500 clamp(18px,1.6vw,22px)/1.45 var(--sans);color:var(--sub);max-width:36em;text-wrap:balance}
 .card-h{font:700 20px/1.3 var(--sans)}
@@ -126,7 +125,6 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes dawnA{from{opacity:1}to{opacity:.8}}
 @keyframes dawnB{from{opacity:0}to{opacity:1}}
-@keyframes lift{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-24px,0)}}
 .stagger>*{animation:rise .5s var(--ease) both}
 .stagger>*:nth-child(2){animation-delay:60ms}
 .stagger>*:nth-child(3){animation-delay:120ms}
@@ -138,19 +136,18 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 /* ---------- the gate · Scene 01 at web scale · Paper Fade + Hero Dot edge-crop ---------- */
 #gate{position:fixed;inset:0;overflow:hidden;color:var(--ink);background:linear-gradient(180deg,rgba(117,226,255,.07) 0%,rgba(117,226,255,.20) 100%) var(--paper)}
 .gate-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.gate-dot{position:absolute;left:50%;top:78%;width:160vh;height:160vh;margin-left:-80vh;border-radius:999px;background:var(--cyan);animation:lift 11s var(--ease) infinite alternate}
 .gate-dots{position:absolute;inset:0;display:block;width:100%;height:100%}
 .gate-scroll{position:relative;z-index:1;height:100%;overflow:auto;display:flex;flex-direction:column;padding:clamp(28px,7.4vmin,80px)}
-#gate .scene{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px 0}
-#gate .zone{width:100%;max-width:600px;margin:0 auto}
-#gate form,#gate .lede{max-width:440px;margin-left:auto;margin-right:auto}
+#gate .scene{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 0}
+#gate .panel{width:100%;max-width:440px;background:var(--paper);border:1px solid var(--hair);border-radius:24px;padding:48px 44px 44px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-#gate .eyebrow{margin-bottom:28px}
-#gate .h1{margin-bottom:16px}
-#gate .lede{font:500 20px/1.5 var(--sans);color:var(--sub);margin-bottom:48px}
+#gate .eyebrow{margin-bottom:20px}
+#gate .h1{font-size:clamp(34px,3vw,40px);margin-bottom:12px}
+#gate .lede{font:500 16px/1.55 var(--sans);color:var(--sub);margin-bottom:32px}
+.btn.wide{width:100%}
 #pw{font-family:var(--mono);letter-spacing:.14em}
 #pw::placeholder{font-family:var(--sans);letter-spacing:0}
-#gate .note{min-height:20px;font:500 13px/1.5 var(--sans);color:var(--err);margin:12px 0 20px;opacity:0;transition:opacity var(--ui) var(--ease)}
+#gate .note{min-height:20px;font:500 13px/1.5 var(--sans);color:var(--err);margin:10px 0 16px;opacity:0;transition:opacity var(--ui) var(--ease)}
 #gate .note.show{opacity:1}
 #gate .rail{display:flex;justify-content:space-between;align-items:baseline}
 #gate .rail .site{font:300 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
@@ -289,15 +286,14 @@ td .status{white-space:nowrap}
   .seg .t{flex-basis:100%}
   .seg .tag{width:auto;flex:1}
   .swatches{grid-template-columns:repeat(3,1fr)}
-  .gate-dot{top:82%;width:140vh;height:140vh;margin-left:-70vh}
-  #gate .scene{align-items:flex-start;padding-top:56px}
-  #gate .lede{margin-bottom:36px}
+  #gate .panel{padding:36px 28px 32px}
+  #gate .lede{margin-bottom:28px}
   main{padding-bottom:96px}
 }
 
 /* reduced motion · freeze the loops, keep the fades */
 @media (prefers-reduced-motion:reduce){
-  .gate-dot,.dawn::before,.dawn::after{animation:none!important}
+  .dawn::before,.dawn::after{animation:none!important}
   .stagger>*,#panel{animation:rise .3s var(--ease) both}
   @keyframes rise{from{opacity:0}to{opacity:1}}
   #toast{transform:translate(-50%,0)}
@@ -307,18 +303,18 @@ td .status{white-space:nowrap}
 <body>
 
 <section id="gate" class="screen" hidden>
-  <div class="gate-bg" aria-hidden="true"><canvas class="gate-dots" id="gateDots"></canvas><div class="gate-dot"></div></div>
+  <div class="gate-bg" aria-hidden="true"><canvas class="gate-dots" id="gateDots"></canvas></div>
   <div class="gate-scroll">
     <div class="scene">
-      <div class="zone">
-        <div class="eyebrow">Platform Control Center</div>
-        <h1 class="h1 xl">Nice to see you<span class="period">.</span></h1>
-        <p class="lede">The console above every workspace.</p>
+      <div class="panel">
+        <div class="eyebrow">Dotment platform</div>
+        <h1 class="h1">Control Center<span class="period">.</span></h1>
+        <p class="lede">Sign in to manage brand workspaces, their access and their segments.</p>
         <form id="gateForm" novalidate>
           <label class="sr-only" for="pw">Password</label>
           <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Enter your password" spellcheck="false">
           <div class="note" id="gateNote">That's not it. Try again.</div>
-          <button class="btn" type="submit">Enter</button>
+          <button class="btn wide" type="submit">Enter</button>
         </form>
       </div>
     </div>
