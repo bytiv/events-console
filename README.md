@@ -3,6 +3,8 @@
 DOTMENT's console above every brand workspace. One page, no build.
 
 - `index.html` — the whole thing: gate, brands, manage.
+- `INVENTORY.md` — every screen's copy, controls, data and behaviour, written down before the visual redesign.
+- `REDESIGN-PROMPT.md` — the brief the current look was built to, on top of the DOTMENT Foundations board.
 - `assets/fonts/` — licensed Gilroy (300–800 + italics) and IBM Plex Mono.
 - `assets/logos/` — brand logos. Add a file and point the brand's `logo` at it in the seed.
 - `assets/favicon.*` — the DOTMENT mark.
