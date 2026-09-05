@@ -18,3 +18,4 @@ python3 -m http.server 8000
 State lives in the browser: one `localStorage` key (`dotment-control-center`) for the data, and sign-in kept in both a cookie (`dcc_session`) and a storage flag, so it survives a refresh even when opened as a file. The seed loads on first visit only. To reset, clear site data for the origin.
 
 The gate password and the brand list sit at the top of the script in `index.html` (`PASSWORD` and `seed()`).
+# events-console
