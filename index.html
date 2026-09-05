@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOTMENT · Platform Control Center</title>
+<meta name="description" content="DOTMENT's console above every brand workspace.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<style>
+@font-face{font-family:Gilroy;font-weight:300;font-style:normal;src:url(assets/fonts/Gilroy-Light.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:400;font-style:normal;src:url(assets/fonts/Gilroy-Regular.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:500;font-style:normal;src:url(assets/fonts/Gilroy-Medium.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:600;font-style:normal;src:url(assets/fonts/Gilroy-SemiBold.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:700;font-style:normal;src:url(assets/fonts/Gilroy-Bold.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:800;font-style:normal;src:url(assets/fonts/Gilroy-ExtraBold.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:300;font-style:italic;src:url(assets/fonts/Gilroy-LightItalic.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:500;font-style:italic;src:url(assets/fonts/Gilroy-MediumItalic.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:600;font-style:italic;src:url(assets/fonts/Gilroy-SemiBoldItalic.woff) format("woff");font-display:swap}
+@font-face{font-family:Gilroy;font-weight:700;font-style:italic;src:url(assets/fonts/Gilroy-BoldItalic.woff) format("woff");font-display:swap}
+@font-face{font-family:"IBM Plex Mono";font-weight:400;font-style:normal;src:url(assets/fonts/IBMPlexMono-Regular.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;font-style:normal;src:url(assets/fonts/IBMPlexMono-Medium.woff2) format("woff2");font-display:swap}
+
+:root{
+  --ink:#000000;--paper:#FFFFFF;--canvas:#E3E4E5;--cyan:#75E2FF;
+  --muted:#55585B;--sub:#3A3D40;--hair:#C6C8CA;--ph:#9EA1A4;--err:#EB937E;
+  --dark-card:#1A1D20;--dark-hair:#2A2D30;
+  --ease:cubic-bezier(0.45,0,0.15,1);
+  --sans:Gilroy,"Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--canvas);color:var(--ink);font:500 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+[hidden]{display:none!important}
+::selection{background:var(--cyan);color:var(--ink)}
+
+/* ---------- type ---------- */
+.h1{font:800 48px/1.06 var(--sans);letter-spacing:-0.01em}
+.h2{font:800 32px/1.1 var(--sans);letter-spacing:-0.01em}
+.sub{font:500 24px/1.4 var(--sans);color:var(--sub)}
+.eyebrow{font:300 14px/1.2 var(--sans);letter-spacing:0.18em;text-transform:uppercase}
+.cap{font:300 12px/1.4 var(--sans);letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+.card-h{font:700 20px/1.3 var(--sans)}
+.mono{font-family:var(--mono);font-weight:400}
+.period{color:var(--cyan)}
+.wordmark{font:800 22px/1 var(--sans);letter-spacing:0.005em;text-transform:uppercase}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:14px 26px;font:700 15px/1 var(--sans);letter-spacing:0.06em;text-transform:uppercase;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);transition:background .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease);white-space:nowrap}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn.outline{background:var(--paper);color:var(--ink)}
+.btn.outline:hover{background:var(--ink);color:var(--paper)}
+.btn.cyan{background:var(--cyan);color:var(--ink);border-color:var(--cyan)}
+.btn.cyan:hover{background:var(--paper);border-color:var(--paper)}
+.btn.sm{padding:11px 20px;font-size:13px}
+.btn:focus-visible,.tog:focus-visible,.pill:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+
+/* pills: tabs, presets, tier and role chips */
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:11px 20px;font:700 12.5px/1 var(--sans);letter-spacing:0.02em;border:1.5px solid var(--hair);color:var(--sub);background:transparent;transition:background .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease)}
+.pill:hover{border-color:var(--ink);color:var(--ink)}
+.pill.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip{display:inline-flex;align-items:center;border-radius:999px;padding:7px 12px;font:600 11px/1 var(--sans);letter-spacing:0.08em;text-transform:uppercase;border:1.5px solid var(--hair);background:var(--paper);color:var(--ink);white-space:nowrap}
+.chip.outline{border-color:var(--ink)}
+.chip.cyan{background:var(--cyan);border-color:var(--cyan)}
+.chip.ink{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+
+/* ---------- inputs ---------- */
+.field{display:block;width:100%;border-radius:12px;border:1.5px solid var(--ph);background:var(--paper);padding:13px 16px;font:500 15px/1.3 var(--sans);color:var(--ink);transition:border-color .18s var(--ease)}
+.field::placeholder{color:var(--ph)}
+.field:focus{border-color:var(--ink);outline:3px solid var(--cyan);outline-offset:2px}
+.field.mono{font:400 14px/1.4 var(--mono)}
+.field.err{border-color:var(--err)}
+.field.err:focus{outline-color:var(--err)}
+select.field{appearance:none;-webkit-appearance:none;padding-right:44px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;cursor:pointer}
+input[type=number].field{-moz-appearance:textfield}
+input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.label{display:block;font:600 13px/1.2 var(--sans);margin-bottom:8px}
+.help{font:400 11px/1.5 var(--mono);color:var(--muted);margin-top:8px}
+
+/* toggle: off = outlined track + ink knob · on = black track + cyan knob */
+.tog{position:relative;flex:none;width:46px;height:26px;border-radius:999px;border:1.5px solid var(--ink);background:var(--paper);transition:background .18s var(--ease)}
+.tog .k{position:absolute;left:3px;top:2.5px;width:18px;height:18px;border-radius:999px;background:var(--ink);transition:transform .18s var(--ease),background .18s var(--ease)}
+.tog[aria-checked=true]{background:var(--ink)}
+.tog[aria-checked=true] .k{background:var(--cyan);transform:translateX(19px)}
+
+/* ---------- dots ---------- */
+.dot{display:inline-block;width:8px;height:8px;border-radius:999px;background:var(--cyan);flex:none}
+.dot.ink{background:var(--ink)}
+.dot.empty{background:transparent;border:1.5px solid var(--ink)}
+.status{display:inline-flex;align-items:center;gap:9px;font:300 12px/1 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.status .dot{width:9px;height:9px}
+.face{width:96px;height:96px;border-radius:999px;background:var(--canvas);display:flex;align-items:center;justify-content:center;flex:none}
+.face .plate{width:72px;height:72px;border-radius:999px;background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.face .plate img{width:66px;height:66px;object-fit:contain}
+.face .plate .mono-letter{font:800 26px/1 var(--sans);letter-spacing:-0.02em}
+.face.lg{width:120px;height:120px}
+.face.lg .plate{width:92px;height:92px}
+.face.lg .plate img{width:86px;height:86px}
+.face.lg .plate .mono-letter{font-size:34px}
+
+/* ---------- screens ---------- */
+.screen{opacity:1;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.screen.out{opacity:0;transform:translateY(6px);pointer-events:none}
+.screen.in{opacity:0;transform:translateY(6px)}
+@media (prefers-reduced-motion:reduce){*{transition-duration:0.01ms!important;animation-duration:0.01ms!important}}
+
+/* gate */
+#gate{position:fixed;inset:0;background:var(--ink);color:var(--paper);overflow:hidden;background-image:radial-gradient(circle,#FFFFFF 2px,transparent 2.6px);background-size:20px 20px;background-position:10px 10px}
+#gate .stray{position:absolute;background:var(--cyan);border-radius:999px}
+#gate .stray.dash{width:4px;height:30px;transform:rotate(45deg);left:27%;top:23%}
+#gate .stray.pt{width:5px;height:5px;left:63%;top:71%}
+#gate .hero{position:absolute;width:56vmin;height:56vmin;border-radius:999px;background:var(--cyan);right:-16vmin;bottom:-18vmin}
+#gate .top{position:absolute;left:40px;top:32px;display:flex;flex-direction:column;gap:12px;background:var(--ink);padding:16px 16px 18px}
+#gate .top .eyebrow{color:var(--paper)}
+#gate .bottom{position:absolute;left:40px;bottom:28px;background:var(--ink);padding:16px;font:300 11px/1 var(--sans);letter-spacing:0.14em;color:var(--ph);text-transform:uppercase}
+#gate .panel{position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:440px;background:var(--ink);border-radius:24px;padding:40px 44px 44px}
+#gate .h1{color:var(--paper);margin-bottom:8px}
+#gate .lede{font:500 16px/1.55 var(--sans);color:var(--ph);margin-bottom:32px}
+#gate .field{background:var(--ink);color:var(--paper);border-color:var(--muted)}
+#gate .field:focus{border-color:var(--paper)}
+#gate .field.err{border-color:var(--err)}
+#gate .field.err:focus{outline-color:var(--err)}
+#pw{font-family:var(--mono);letter-spacing:0.12em}
+#pw::placeholder{font-family:var(--sans);letter-spacing:0}
+#gate .note{min-height:20px;font:500 13px/1.5 var(--sans);color:var(--err);margin:10px 0 18px;opacity:0;transition:opacity .18s var(--ease)}
+#gate .note.show{opacity:1}
+#gate .btn{width:100%}
+
+/* app frame */
+#app{min-height:100vh;display:flex;flex-direction:column}
+.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
+header.band{background:var(--paper)}
+header.band .wrap{height:76px;display:flex;align-items:center;justify-content:space-between}
+header.band .who{display:flex;align-items:center;gap:20px}
+header.band .who .mail{font:400 13px/1 var(--mono);color:var(--sub)}
+main{flex:1;padding:64px 0 96px}
+footer.band{background:var(--ink);color:var(--paper)}
+footer.band .wrap{height:72px;display:flex;align-items:center;justify-content:space-between}
+footer.band .left{font:300 11px/1 var(--sans);letter-spacing:0.14em;color:var(--ph);text-transform:uppercase}
+footer.band .right{font:500 13px/1 var(--sans);color:#C9CBCD}
+
+.title{margin-bottom:48px}
+.title .sub{margin-top:12px}
+.crumb{display:flex;align-items:center;gap:10px;font:500 14px/1 var(--sans);color:var(--muted);margin-bottom:28px}
+.crumb a{transition:color .18s var(--ease)}
+.crumb a:hover{color:var(--ink)}
+.crumb .mid{color:var(--cyan);font-weight:800;font-size:16px}
+.crumb .here{color:var(--ink);font-weight:600}
+
+/* cards */
+.card{background:var(--paper);border-radius:24px;padding:24px}
+.card.pad{padding:28px 32px}
+.grid{display:grid;gap:24px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.stack>*+*{margin-top:32px}
+
+/* stat tiles */
+.stat{padding:28px 32px}
+.stat .cap{margin-bottom:18px}
+.stat .n{font:700 44px/1 var(--sans);letter-spacing:-0.02em}
+.stat .n .u{color:var(--cyan)}
+
+/* brand card */
+.brand{display:flex;flex-direction:column;padding:28px}
+.brand .name{font:700 20px/1.3 var(--sans);margin-top:20px}
+.brand .status{margin-top:8px}
+.brand .kv{margin-top:20px}
+.brand .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.brand .actions .btn{padding-left:12px;padding-right:12px}
+
+/* key-value rows */
+.kv .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-bottom:1px solid var(--canvas);padding:12px 0}
+.kv .row:last-child{border-bottom:0}
+.kv .k{font:300 11px/1.3 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);flex:none}
+.kv .v{font:400 13px/1.4 var(--mono);text-align:right}
+
+/* tables */
+table{width:100%;border-collapse:collapse}
+th{font:300 11px/1.2 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 12px 14px 0;border-bottom:1px solid var(--ink)}
+td{padding:16px 12px 16px 0;border-bottom:1px solid var(--canvas);font:500 15px/1.4 var(--sans);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.mono,th.mono{font-family:var(--mono);font-weight:400;font-size:13px}
+td.num,th.num{text-align:right;padding-right:0;padding-left:28px;white-space:nowrap}
+td.name{font-weight:700}
+
+/* masthead */
+.mast{display:flex;align-items:center;gap:28px;margin-bottom:40px}
+.mast .grow{flex:1}
+.mast .h1{margin-bottom:10px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+
+/* segments */
+.seg-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:24px}
+.counter{font:400 14px/1 var(--mono);color:var(--sub)}
+.presets{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;align-items:center}
+.presets .cap{margin-right:8px}
+.group{padding:28px 32px}
+.group .head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--ink)}
+.group .head .l{display:flex;align-items:baseline;gap:14px}
+.group .head .cnt{font:400 12px/1 var(--mono);color:var(--muted)}
+.seg{display:flex;align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid var(--canvas)}
+.seg:last-child{border-bottom:0;padding-bottom:4px}
+.seg .t{flex:1;min-width:0}
+.seg .n{font:600 16px/1.3 var(--sans)}
+.seg .d{font:500 13.5px/1.5 var(--sans);color:var(--muted);margin-top:2px}
+.seg.off .n{color:var(--sub)}
+.seg .chip{width:84px;justify-content:center}
+
+/* access, branding */
+.frow{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 0;border-bottom:1px solid var(--canvas)}
+.frow:last-child{border-bottom:0}
+.frow .n{font:600 15px/1.3 var(--sans)}
+.frow .d{font:500 13px/1.5 var(--sans);color:var(--muted);margin-top:2px}
+.card .card-h{margin-bottom:20px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px}
+.swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.sw{display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.sw .c{width:56px;height:56px;border-radius:999px;border:1px solid var(--hair)}
+.sw .k{font:300 11px/1.3 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
+.sw .v{font:400 13px/1 var(--mono)}
+.brand-id{display:flex;align-items:center;gap:20px;margin-bottom:24px}
+.brand-id .name{font:700 20px/1.3 var(--sans)}
+.brand-id .cap{margin-top:4px}
+.caption{font:500 13px/1.5 var(--sans);color:var(--muted);margin-top:24px}
+.suspend{margin-top:24px;padding:20px 24px;border-radius:16px;background:var(--canvas)}
+.suspend .frow{padding:0;border:0}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:32px;transform:translate(-50%,16px);opacity:0;background:var(--ink);color:var(--paper);border-radius:999px;padding:14px 22px;display:inline-flex;align-items:center;gap:10px;font:600 14px/1 var(--sans);transition:opacity .2s var(--ease),transform .2s var(--ease);pointer-events:none;z-index:50;white-space:nowrap}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:700px){.g4,.g3,.g2,.fgrid{grid-template-columns:1fr}.h1{font-size:36px}.mast{flex-wrap:wrap}#gate .panel{width:calc(100% - 48px);padding:32px 28px}#gate .top{left:24px;top:28px}#gate .bottom{left:24px}.swatches{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<section id="gate" hidden>
+  <div class="stray dash"></div>
+  <div class="stray pt"></div>
+  <div class="hero"></div>
+  <div class="top">
+    <div class="wordmark">Dotment</div>
+    <div class="eyebrow">Platform Control Center</div>
+  </div>
+  <form class="panel" id="gateForm" novalidate>
+    <h1 class="h1">Nice to see you<span class="period">.</span></h1>
+    <p class="lede">The console above every workspace.</p>
+    <label class="label" for="pw" style="color:#C9CBCD">Password</label>
+    <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Your console password" spellcheck="false">
+    <div class="note" id="gateNote">That's not it. Try again.</div>
+    <button class="btn cyan" type="submit">Enter</button>
+  </form>
+  <div class="bottom">©2026 · Dotment.com</div>
+</section>
+
+<div id="app" hidden>
+  <header class="band">
+    <div class="wrap">
+      <a class="wordmark" href="#" data-go="brands">Dotment</a>
+      <div class="who">
+        <span class="mail">belal@dotment.com</span>
+        <button class="btn outline sm" id="signOut" type="button">Sign out</button>
+      </div>
+    </div>
+  </header>
+  <main><div class="wrap" id="main"></div></main>
+  <footer class="band">
+    <div class="wrap">
+      <div class="left">©2026 · Dotment.com</div>
+      <div class="right">With pure love<span class="period" style="font-weight:800">·</span></div>
+    </div>
+  </footer>
+</div>
+
+<div id="toast" role="status" aria-live="polite"><span class="dot"></span><span id="toastText"></span></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------------- constants ---------------- */
+var PASSWORD = 'dotment';
+var STORE_KEY = 'dotment-control-center';
+var COOKIE = 'dcc_session';
+var ME = 'belal@dotment.com';
+
+var TZ_CITY = {'Africa/Cairo':'Cairo','Asia/Dubai':'Dubai','Europe/London':'London'};
+var PLAN_PRESET = {Starter:'STARTER',Growth:'GROWTH',Enterprise:'FULL'};
+
+/* ---------------- the library ---------------- */
+/* id, name, tier, one-liner */
+var GROUPS = [
+ {name:'Arrival', segs:[
+  ['photo-checkin','Photo check-in','CORE','Find your own face on the wall and claim it. No app, no typing.'],
+  ['pre-event','Pre-event page','CORE','Agenda, speakers and location, live before doors open.'],
+  ['welcome','Welcome','CORE','The opening screen the host fires when the night starts.'],
+  ['agenda','Agenda screen','CORE','The whole flow on every phone, and where the room is right now.'],
+  ['net-goals','Networking goals','PLUS','Pick a goal on arrival and get nudged toward it all night.'],
+  ['guess-who','Guess who','PLUS','One surprising fact each. The room guesses whose it is.']
+ ]},
+ {name:'Learning', segs:[
+  ['assessment','Assessment','CORE','Skill self-assessment with the brand’s own domains and levels.'],
+  ['results','Personal results','CORE','Each phone shows that person’s level and breakdown, instantly.'],
+  ['capability','Capability pick','CORE','Everyone picks the one skill they’ll master next.'],
+  ['academy','Learning academy ask','PLUS','One question and interest capture for a follow-up program.'],
+  ['quiz','Quiz battle','PLUS','Timed questions, points for speed, a live leaderboard between rounds.'],
+  ['predictions','Predictions','PLUS','Everyone predicts a number. The closest guess is crowned at the end.']
+ ]},
+ {name:'Networking', segs:[
+  ['scratch','Scratch reveal','CORE','Scratch the card to reveal who you’re meeting and a starter.'],
+  ['tables','Table grouping','CORE','The room splits into tables. Every phone shows where to go.'],
+  ['circle-topics','Circle topics','CORE','Discussion topics per circle, editable by the brand.'],
+  ['mini-circles','Mini circles','PLUS','Smaller breakout rounds with auto-move and arrivals.'],
+  ['speed','Speed rounds','PLUS','Timed 1:1 rotations with a conversation prompt each round.'],
+  ['topic-tables','Topic tables','PLUS','Anyone posts a topic, others book the open seats.'],
+  ['roulette','Icebreaker roulette','PLUS','The screen picks two people. They ask each other a question, live.'],
+  ['bingo','Human bingo','PLUS','A card of traits. Find the people who match. First full card wins.'],
+  ['mentor','Mentor pool','PLUS','Raise a hand to mentor or to learn. The wall fills up live.']
+ ]},
+ {name:'Live interaction', segs:[
+  ['live-q','Live question','CORE','Host opens a question, everyone types, answers land on the big screen.'],
+  ['spotlight','Spotlight','CORE','One person and a prompt on the big screen.'],
+  ['wordcloud','Word cloud','CORE','Everyone types one word. The cloud grows live.'],
+  ['qa','Q&A with upvotes','CORE','Ask from your phone, upvote others. Top questions rise.'],
+  ['polls','Poll pack','CORE','Multiple choice, ranking, sliders and points allocation.'],
+  ['this-that','This or that','CORE','Rapid either-or questions. The split shows as two growing bars.'],
+  ['stand','Stand your side','PLUS','A bold statement, agree or disagree, a meter that moves live.'],
+  ['pin','Pin on image','PLUS','Drop a pin on a map or a 2×2 grid. Dots build up live.'],
+  ['story','Story wall','PLUS','A prompt, two lines each. The best stories rotate with faces.'],
+  ['slides','Slides','PLUS','Upload a deck. The host flips slides from the control room.']
+ ]},
+ {name:'Energy & games', segs:[
+  ['reactions','Reaction storm','CORE','Tap emojis and they rain over the big screen.'],
+  ['spinner','Spinner wheel picker','CORE','A wheel of attendee faces picks who answers next.'],
+  ['flash','Flash round','PLUS','An image hits the screen. Fastest correct guess takes the round.'],
+  ['table-battle','Table battle','PLUS','Tables compete as teams. Mini-challenges, points, a leaderboard.'],
+  ['prize','Prize draw','PLUS','A raffle over checked-in attendees, drawn live.'],
+  ['mystery','Mystery segment','PREMIUM','One button pulls a surprise from a shortlist the brand approved.'],
+  ['energy','Energy meter','PLUS','One-tap mood at the start and the end. See what the night did.'],
+  ['pulse','Feedback pulse','CORE','One emoji tap after a talk. Instant sentiment for the operator.']
+ ]},
+ {name:'Recognition', segs:[
+  ['ballot','Ranked ballot + reveal','CORE','Everyone votes. The screen reveals 3rd, 2nd, 1st with drama.'],
+  ['workshops','Workshops vote','PLUS','Pitch workshop options, the room votes, winners run.'],
+  ['awards','Awards ceremony','PREMIUM','Awards generated from the night’s own data, revealed one by one.'],
+  ['photo-wall','Photo wall','PLUS','Phones shoot, the big screen becomes a live mosaic of the night.'],
+  ['sponsor','Sponsor spotlight','PREMIUM','Rotating sponsor slides between segments, logos on the join page.']
+ ]},
+ {name:'After the event', segs:[
+  ['commitment','Commitment card','CORE','A shareable card with your superpower and your next skill.'],
+  ['connect','Connect wall','CORE','Everyone you met tonight, one tap to LinkedIn.'],
+  ['email','Email capture','CORE','One consent-clean email ask, placed anywhere in the flow.'],
+  ['recap','Recap mode','PLUS','After the event, phones become a take-home recap of the night.'],
+  ['countdown','Countdown break','CORE','A break screen with a timer. Phones and big screen in sync.'],
+  ['announce','Announcements','CORE','Push a banner to every phone the moment it matters.']
+ ]}
+];
+var SEGS = [];
+GROUPS.forEach(function(g){ g.segs.forEach(function(s){ SEGS.push({id:s[0],name:s[1],tier:s[2],desc:s[3],group:g.name}); }); });
+var SEG_BY_ID = {}; SEGS.forEach(function(s){ SEG_BY_ID[s.id]=s; });
+
+var INCIRCLE_ON = ['photo-checkin','pre-event','welcome','assessment','results','capability','academy',
+  'scratch','tables','circle-topics','mini-circles','mentor','live-q','spotlight','ballot','workshops',
+  'commitment','connect','email','recap'];
+
+var CAPS = [
+  ['whitelabel','White-label','Remove the DOTMENT badge everywhere.'],
+  ['domain','Custom domain','The event lives at the brand’s own address.'],
+  ['recap','Recap mode after the event','Phones stay live as a take-home recap.'],
+  ['excel','Excel exports','One-click exports with saved column sets.'],
+  ['ai','AI fill for content','A first draft of every segment from one line.'],
+  ['rehearsal','Rehearsal mode','Run the whole night with test data, then wipe.'],
+  ['reports','Personal reports by email','A branded report to each attendee’s inbox.'],
+  ['templates','Event templates','Save any event as a format and relaunch it.']
+];
+
+var LIMITS = [
+  ['eventsPerMonth','Events per month'],
+  ['attendeesPerEvent','Attendees per event'],
+  ['operatorSeats','Operator seats'],
+  ['bigScreens','Big screens per event']
+];
+
+var PLACEMENTS = [['phones','Phones'],['bigscreen','Big screen'],['join','Join page'],['emails','Emails']];
+
+/* ---------------- presets ---------------- */
+function presetSet(name){
+  var out = {};
+  SEGS.forEach(function(s){
+    out[s.id] = name==='FULL' ? true : name==='GROWTH' ? (s.tier!=='PREMIUM') : (s.tier==='CORE');
+  });
+  return out;
+}
+function withDiffs(set, offs, ons){
+  var o = Object.assign({}, set);
+  (offs||[]).forEach(function(id){ o[id]=false; });
+  (ons||[]).forEach(function(id){ o[id]=true; });
+  return o;
+}
+
+/* ---------------- seed ---------------- */
+function seed(){
+  var inc = {};
+  SEGS.forEach(function(s){ inc[s.id] = INCIRCLE_ON.indexOf(s.id)>=0; });
+  return { v:1, ui:{view:'brands',brand:null,tab:'overview'}, brands:[
+    {
+      id:'incircle', name:'InCircle', slug:'incircle', link:'https://incircle.vercel.app', logo:'assets/logos/incircle.png',
+      plan:'Enterprise', status:'ACTIVE', prevStatus:null,
+      access:{period:'Yearly', renews:'2027-08-01', lapsed:false},
+      timezone:'Africa/Cairo', roster:93,
+      events:[
+        {name:'Community Night #1', date:'2026-08-04T19:00', status:'ARCHIVED', attendees:93, checkedIn:71},
+        {name:'Community Night #2', date:'2026-08-25T19:00', status:'ARCHIVED', attendees:93, checkedIn:78}
+      ],
+      team:[
+        {name:'Belal Elgebaly', email:'belal@incircle.community', role:'OWNER'},
+        {name:'Nour Hassan', email:'nour@incircle.community', role:'ADMIN'},
+        {name:'Omar Farid', email:'omar@incircle.community', role:'OPERATOR'},
+        {name:'Mariam Adel', email:'mariam@incircle.community', role:'OPERATOR'}
+      ],
+      segments: inc,
+      limits:{eventsPerMonth:8, attendeesPerEvent:500, operatorSeats:5, bigScreens:3},
+      caps:{whitelabel:true, domain:true, recap:true, excel:true, ai:true, rehearsal:true, reports:true, templates:true},
+      branding:{colors:{canvas:'#F0F8FC', ink:'#1A1A1A', accent:'#9EBBF1', card:'#FFFFFF', muted:'#8A9093'}, font:'Gilroy', placement:{phones:true, bigscreen:true, join:true, emails:true}}
+    },
+    {
+      id:'northline', name:'Northline Bank', slug:'northline', link:'https://northline.dotment.com', logo:null,
+      plan:'Growth', status:'ACTIVE', prevStatus:null,
+      access:{period:'Monthly', renews:'2026-10-01', lapsed:false},
+      timezone:'Africa/Cairo', roster:140,
+      events:[
+        {name:'Leaders Offsite', date:'2026-09-17T18:30', status:'UPCOMING', attendees:140, checkedIn:0}
+      ],
+      team:[
+        {name:'Dina Mansour', email:'dina@northline.example', role:'OWNER'},
+        {name:'Karim Sabry', email:'karim@northline.example', role:'ADMIN'},
+        {name:'Salma Ezz', email:'salma@northline.example', role:'OPERATOR'}
+      ],
+      segments: withDiffs(presetSet('GROWTH'), ['bingo','slides'], ['awards']),
+      limits:{eventsPerMonth:4, attendeesPerEvent:250, operatorSeats:3, bigScreens:2},
+      caps:{whitelabel:false, domain:false, recap:true, excel:true, ai:true, rehearsal:true, reports:true, templates:true},
+      branding:{colors:{canvas:'#F4F1EA', ink:'#141414', accent:'#1F4E79', card:'#FFFFFF', muted:'#7A7F84'}, font:'Brand upload', placement:{phones:true, bigscreen:true, join:true, emails:false}}
+    },
+    {
+      id:'orbit', name:'Orbit Coworking', slug:'orbit', link:'https://orbit.dotment.com', logo:null,
+      plan:'Starter', status:'TRIAL', prevStatus:null,
+      access:{period:'Per agreement', renews:'2026-11-30', lapsed:false},
+      timezone:'Asia/Dubai', roster:60,
+      events:[
+        {name:'Founders Mixer', date:'2026-10-08T19:00', status:'UPCOMING', attendees:60, checkedIn:0}
+      ],
+      team:[
+        {name:'Layla Haddad', email:'layla@orbit.example', role:'OWNER'},
+        {name:'Ravi Menon', email:'ravi@orbit.example', role:'OPERATOR'}
+      ],
+      segments: withDiffs(presetSet('STARTER'), ['reactions','wordcloud'], ['quiz','speed']),
+      limits:{eventsPerMonth:2, attendeesPerEvent:100, operatorSeats:1, bigScreens:1},
+      caps:{whitelabel:false, domain:false, recap:true, excel:true, ai:false, rehearsal:true, reports:false, templates:false},
+      branding:{colors:{canvas:'#FFFFFF', ink:'#0B0B0B', accent:'#FF7A59', card:'#F6F6F6', muted:'#8C9196'}, font:'Inter', placement:{phones:true, bigscreen:true, join:false, emails:false}}
+    },
+    {
+      id:'lumen', name:'Lumen Academy', slug:'lumen', link:'https://lumen.dotment.com', logo:null,
+      plan:'Growth', status:'ACTIVE', prevStatus:null,
+      access:{period:'Yearly', renews:'2027-03-15', lapsed:false},
+      timezone:'Africa/Cairo', roster:220,
+      events:[
+        {name:'Cohort Graduation', date:'2026-07-22T18:00', status:'ARCHIVED', attendees:220, checkedIn:168},
+        {name:'Autumn Kickoff', date:'2026-09-29T17:00', status:'UPCOMING', attendees:220, checkedIn:0}
+      ],
+      team:[
+        {name:'Youssef Kamal', email:'youssef@lumen.example', role:'OWNER'},
+        {name:'Hana Tarek', email:'hana@lumen.example', role:'ADMIN'},
+        {name:'Ali Nabil', email:'ali@lumen.example', role:'OPERATOR'},
+        {name:'Farida Samy', email:'farida@lumen.example', role:'OPERATOR'}
+      ],
+      segments: withDiffs(presetSet('GROWTH'), ['predictions','story','net-goals'], ['sponsor']),
+      limits:{eventsPerMonth:4, attendeesPerEvent:250, operatorSeats:3, bigScreens:2},
+      caps:{whitelabel:false, domain:true, recap:true, excel:true, ai:true, rehearsal:true, reports:true, templates:true},
+      branding:{colors:{canvas:'#FBF7EF', ink:'#1C1B18', accent:'#E0B24A', card:'#FFFFFF', muted:'#8A8578'}, font:'Gilroy', placement:{phones:true, bigscreen:true, join:true, emails:true}}
+    },
+    {
+      id:'harbor', name:'Harbor & Co.', slug:'harbor', link:'https://harbor.dotment.com', logo:null,
+      plan:'Starter', status:'SUSPENDED', prevStatus:'ACTIVE',
+      access:{period:'Monthly', renews:'2026-08-01', lapsed:true},
+      timezone:'Europe/London', roster:45,
+      events:[
+        {name:'Summer Social', date:'2026-06-11T18:30', status:'ARCHIVED', attendees:45, checkedIn:38}
+      ],
+      team:[
+        {name:'Grace Whitmore', email:'grace@harbor.example', role:'OWNER'},
+        {name:'Tom Ashby', email:'tom@harbor.example', role:'OPERATOR'}
+      ],
+      segments: withDiffs(presetSet('STARTER'), ['countdown','announce'], ['photo-wall']),
+      limits:{eventsPerMonth:2, attendeesPerEvent:100, operatorSeats:1, bigScreens:1},
+      caps:{whitelabel:false, domain:false, recap:false, excel:true, ai:false, rehearsal:false, reports:false, templates:false},
+      branding:{colors:{canvas:'#EEF2F4', ink:'#10161A', accent:'#2E6F73', card:'#FFFFFF', muted:'#7C8790'}, font:'Gilroy', placement:{phones:true, bigscreen:false, join:true, emails:false}}
+    }
+  ]};
+}
+
+/* ---------------- store ---------------- */
+var DB = null;
+function load(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(raw){ var d = JSON.parse(raw); if(d && d.v===1 && d.brands) return d; }
+  }catch(e){}
+  var s = seed();
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }catch(e){}
+  return s;
+}
+function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(DB)); }catch(e){} }
+function save(){ persist(); toast('Saved. Nice one.'); }
+function brand(id){ for(var i=0;i<DB.brands.length;i++) if(DB.brands[i].id===id) return DB.brands[i]; return null; }
+
+/* ---------------- cookie ---------------- */
+function hasCookie(){ return document.cookie.split(';').some(function(c){ return c.trim().indexOf(COOKIE+'=')===0; }); }
+function setCookie(){ document.cookie = COOKIE+'=1; path=/; max-age=2592000; SameSite=Lax'; }
+function clearCookie(){ document.cookie = COOKIE+'=; path=/; max-age=0; SameSite=Lax'; }
+
+/* ---------------- helpers ---------------- */
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+var MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+function ordinal(n){ var r=n%100; if(r>=11&&r<=13) return n+'TH'; switch(n%10){case 1:return n+'ST';case 2:return n+'ND';case 3:return n+'RD';default:return n+'TH';} }
+function parts(iso){ var m = /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2}))?/.exec(iso||''); if(!m) return null; return {y:+m[1],mo:+m[2],d:+m[3],h:m[4]!=null?+m[4]:null,mi:m[5]!=null?+m[5]:0}; }
+function fmtDay(iso){ var p=parts(iso); if(!p) return ''; return MONTHS[p.mo-1]+' '+ordinal(p.d); }
+function fmtDayYear(iso){ var p=parts(iso); if(!p) return ''; return MONTHS[p.mo-1]+' '+ordinal(p.d)+' '+p.y; }
+function fmtTime(iso){ var p=parts(iso); if(!p||p.h==null) return ''; var h=p.h%12; if(h===0)h=12; return h+':'+(p.mi<10?'0':'')+p.mi+' '+(p.h<12?'AM':'PM'); }
+function fmtEvent(iso, tz){ var t=fmtTime(iso); return fmtDay(iso)+(t?' · '+t:'')+' · '+(TZ_CITY[tz]||'Local')+' Time'; }
+function cityTime(tz){ return (TZ_CITY[tz]||'Local')+' Time'; }
+function segCount(b){ var n=0; SEGS.forEach(function(s){ if(b.segments[s.id]) n++; }); return n; }
+function nextEvent(b){
+  var up = b.events.filter(function(e){ return e.status!=='ARCHIVED'; }).sort(function(a,c){ return a.date<c.date?-1:1; });
+  return up[0]||null;
+}
+function accessLine(b){
+  var a=b.access, s=a.period;
+  if(a.lapsed) return s+' · lapsed';
+  if(a.renews) return s+' · renews '+fmtDayYear(a.renews);
+  return s;
+}
+function statusDot(st){ return st==='ACTIVE' ? '<span class="dot"></span>' : st==='TRIAL' ? '<span class="dot ink"></span>' : '<span class="dot empty"></span>'; }
+function statusLine(st){ return '<span class="status">'+statusDot(st)+esc(st)+'</span>'; }
+function plateHTML(b, lg){
+  var inner = b.logo ? '<img src="'+esc(b.logo)+'" alt="'+esc(b.name)+'">' : '<span class="mono-letter">'+esc(b.name.charAt(0))+'</span>';
+  return '<div class="face'+(lg?' lg':'')+'"><div class="plate">'+inner+'</div></div>';
+}
+function tierChip(t){ return '<span class="chip'+(t==='PLUS'?' outline':t==='PREMIUM'?' cyan':'')+'">'+t+'</span>'; }
+function roleChip(r){ return '<span class="chip'+(r==='OWNER'?' ink':r==='ADMIN'?' outline':'')+'">'+r+'</span>'; }
+function evChip(s){ return '<span class="chip'+(s==='UPCOMING'?' outline':s==='LIVE'?' cyan':'')+'">'+s+'</span>'; }
+function tog(on, attrs){ return '<button type="button" class="tog" role="switch" aria-checked="'+(on?'true':'false')+'" '+attrs+'><span class="k"></span></button>'; }
+function quarterRange(){ var d=new Date(); var q=Math.floor(d.getMonth()/3); var y=d.getFullYear(); var s=y+'-'+(q*3+1<10?'0':'')+(q*3+1)+'-01'; var em=q*3+3; var e=y+'-'+(em<10?'0':'')+em+'-31'; return [s,e]; }
+function currentPreset(b){
+  var names=['STARTER','GROWTH','FULL'];
+  for(var i=0;i<names.length;i++){ var p=presetSet(names[i]), ok=true; for(var k in p){ if(!!b.segments[k]!==p[k]){ ok=false; break; } } if(ok) return names[i]; }
+  return null;
+}
+
+/* ---------------- toast ---------------- */
+var toastTimer=null;
+function toast(msg){
+  var el=document.getElementById('toast'), tx=document.getElementById('toastText');
+  if(el.classList.contains('show') && tx.textContent===msg){ clearTimeout(toastTimer); toastTimer=setTimeout(hideToast,3000); return; }
+  tx.textContent=msg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(hideToast,3000);
+}
+function hideToast(){ document.getElementById('toast').classList.remove('show'); }
+
+/* ---------------- screens ---------------- */
+var gateEl=document.getElementById('gate'), appEl=document.getElementById('app'), mainEl=document.getElementById('main');
+function swap(from, to, then){
+  from.classList.add('out');
+  setTimeout(function(){
+    from.hidden=true; from.classList.remove('out');
+    to.classList.add('in'); to.hidden=false; if(then) then();
+    void to.offsetWidth; to.classList.remove('in');
+  }, 220);
+}
+function showGate(){ appEl.hidden=true; gateEl.hidden=false; document.getElementById('pw').value=''; setTimeout(function(){ document.getElementById('pw').focus(); },50); }
+function showApp(){ gateEl.hidden=true; appEl.hidden=false; route(); }
+
+function go(view, brandId, tab){
+  DB.ui = {view:view, brand:brandId||null, tab:tab||'overview'};
+  persist();
+  route();
+  window.scrollTo(0,0);
+}
+function route(){
+  var ui=DB.ui||{view:'brands'};
+  if(ui.view==='manage' && brand(ui.brand)) renderManage(brand(ui.brand), ui.tab||'overview');
+  else renderBrands();
+}
+
+/* ---------------- screen 2: brands ---------------- */
+function renderBrands(){
+  var q=quarterRange();
+  var evQ=0, checked=0;
+  DB.brands.forEach(function(b){ b.events.forEach(function(e){ if(e.date>=q[0] && e.date<=q[1]+'T23:59') evQ++; checked+=e.checkedIn||0; }); });
+  var h='';
+  h+='<div class="title"><h1 class="h1">Every brand, one screen<span class="period">.</span></h1><p class="sub">Grant access, switch segments on, and watch the nights run.</p></div>';
+  h+='<div class="stack">';
+  h+='<div class="grid g4">'
+    +stat('Brands', DB.brands.length)
+    +stat('Events this quarter', evQ)
+    +stat('Attendees checked in', checked)
+    +stat('Segments in the library', SEGS.length)
+    +'</div>';
+  h+='<div class="grid g3">';
+  DB.brands.forEach(function(b){
+    var ne=nextEvent(b);
+    h+='<article class="card brand" data-brand="'+esc(b.id)+'">'
+      +plateHTML(b)
+      +'<div class="name">'+esc(b.name)+'</div>'
+      +'<div>'+statusLine(b.status)+'</div>'
+      +'<div class="kv">'
+        +kv('Plan', esc(b.plan))
+        +kv('Next event', ne ? esc(fmtDay(ne.date)+' · '+fmtTime(ne.date)) : 'Not booked yet')
+        +kv('Segments', segCount(b)+' / '+SEGS.length)
+      +'</div>'
+      +'<div class="actions">'
+        +'<a class="btn outline" href="'+esc(b.link)+'" target="_blank" rel="noopener">Open</a>'
+        +'<button class="btn" type="button" data-manage="'+esc(b.id)+'">Manage</button>'
+      +'</div>'
+      +'</article>';
+  });
+  h+='</div></div>';
+  mainEl.innerHTML=h;
+}
+function stat(label, n){ return '<div class="card stat"><div class="cap">'+label+'</div><div class="n">'+n+'</div></div>'; }
+function kv(k, v){ return '<div class="row"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>'; }
+
+/* ---------------- screen 3: manage ---------------- */
+var TABS=[['overview','Overview'],['segments','Segments'],['access','Access'],['branding','Branding']];
+function renderManage(b, tab){
+  var h='';
+  h+='<nav class="crumb"><a href="#" data-go="brands">Brands</a><span class="mid">·</span><span class="here">'+esc(b.name)+'</span></nav>';
+  h+='<div class="mast">'+plateHTML(b,true)
+    +'<div class="grow"><h1 class="h1">'+esc(b.name)+'<span class="period">.</span></h1><div id="mastStatus">'+statusLine(b.status)+'</div></div>'
+    +'<button class="btn" type="button" id="signInAs">Sign in as brand</button></div>';
+  h+='<div class="tabs">';
+  TABS.forEach(function(t){ h+='<button type="button" class="pill'+(t[0]===tab?' on':'')+'" data-tab="'+t[0]+'">'+t[1].toUpperCase()+'</button>'; });
+  h+='</div>';
+  h+='<div id="panel">'+(tab==='segments'?panelSegments(b):tab==='access'?panelAccess(b):tab==='branding'?panelBranding(b):panelOverview(b))+'</div>';
+  mainEl.innerHTML=h;
+}
+
+function panelOverview(b){
+  var h='<div class="stack">';
+  h+='<div class="grid" style="grid-template-columns:1fr 2fr">';
+  h+='<div class="card pad"><div class="card-h">Facts</div><div class="kv">'
+    +kv('Workspace', esc(b.slug))
+    +kv('Link', esc(b.slug)+'.dotment.com')
+    +kv('Timezone', esc(b.timezone))
+    +kv('Plan', esc(b.plan))
+    +kv('Access', esc(accessLine(b)))
+    +kv('Roster', b.roster+' people')
+    +'</div></div>';
+  h+='<div class="card pad"><div class="card-h">Events</div><div style="overflow-x:auto"><table><thead><tr><th>Event</th><th>When</th><th>Status</th><th class="num">Attendees</th><th class="num">Checked in</th></tr></thead><tbody>';
+  b.events.slice().sort(function(a,c){ return a.date<c.date?1:-1; }).forEach(function(e){
+    h+='<tr><td class="name">'+esc(e.name)+'</td><td class="mono">'+esc(fmtEvent(e.date,b.timezone))+'</td><td>'+evChip(e.status)+'</td><td class="mono num">'+e.attendees+'</td><td class="mono num">'+(e.status==='ARCHIVED'?e.checkedIn:'—')+'</td></tr>';
+  });
+  h+='</tbody></table></div></div></div>';
+  h+='<div class="card pad"><div class="card-h">Team</div><div style="overflow-x:auto"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th></tr></thead><tbody>';
+  b.team.forEach(function(m){ h+='<tr><td class="name">'+esc(m.name)+'</td><td class="mono">'+esc(m.email)+'</td><td>'+roleChip(m.role)+'</td></tr>'; });
+  h+='</tbody></table></div></div>';
+  h+='</div>';
+  return h;
+}
+
+function panelSegments(b){
+  var cur=currentPreset(b);
+  var h='<div class="seg-head"><h2 class="h2">What '+esc(b.name)+' can run<span class="period">.</span></h2><div class="counter" id="segCounter">'+counterText(b)+'</div></div>';
+  h+='<div class="presets"><span class="cap">Presets</span>';
+  [['STARTER','Starter'],['GROWTH','Growth'],['FULL','Full library']].forEach(function(p){ h+='<button type="button" class="pill'+(cur===p[0]?' on':'')+'" data-preset="'+p[0]+'">'+p[1].toUpperCase()+'</button>'; });
+  h+='</div><div class="stack">';
+  GROUPS.forEach(function(g){
+    var on=g.segs.filter(function(s){ return b.segments[s[0]]; }).length;
+    h+='<section class="card group" data-group="'+esc(g.name)+'"><div class="head"><div class="l"><div class="card-h" style="margin:0">'+esc(g.name)+'</div><span class="cnt" data-groupcount>'+on+' / '+g.segs.length+' on</span></div>'+tog(on===g.segs.length,'data-grouptog="'+esc(g.name)+'" aria-label="All of '+esc(g.name)+'"')+'</div>';
+    g.segs.forEach(function(s){
+      var isOn=!!b.segments[s[0]];
+      h+='<div class="seg'+(isOn?'':' off')+'" data-seg="'+s[0]+'"><div class="t"><div class="n">'+esc(s[1])+'</div><div class="d">'+esc(s[3])+'</div></div>'+tierChip(s[2])+tog(isOn,'data-segtog="'+s[0]+'" aria-label="'+esc(s[1])+'"')+'</div>';
+    });
+    h+='</section>';
+  });
+  h+='</div>';
+  return h;
+}
+function counterText(b){ return segCount(b)+' of '+SEGS.length+' segments on'; }
+
+function panelAccess(b){
+  var h='<div class="stack"><div class="grid g2">';
+  h+='<div class="card pad"><div class="card-h">Access period</div><div class="fgrid">'
+    +'<div><label class="label" for="accPeriod">Period</label><select class="field" id="accPeriod" data-access="period">'
+      +['Monthly','Yearly','Per agreement'].map(function(p){ return '<option'+(b.access.period===p?' selected':'')+'>'+p+'</option>'; }).join('')
+    +'</select></div>'
+    +'<div><label class="label" for="accRenew">Renews on</label><input class="field mono" id="accRenew" type="date" data-access="renews" value="'+esc(b.access.renews||'')+'"><div class="help" id="renewHelp">'+esc(accessLine(b))+'</div></div>'
+    +'</div>';
+  h+='<div class="suspend"><div class="frow"><div><div class="n">Suspend access</div><div class="d">Locks the workspace and every event in it. Nothing is deleted.</div></div>'+tog(b.status==='SUSPENDED','id="suspendTog" aria-label="Suspend access"')+'</div></div>';
+  h+='</div>';
+  h+='<div class="card pad"><div class="card-h">Limits</div><div class="fgrid">';
+  LIMITS.forEach(function(l){ h+='<div><label class="label" for="lim-'+l[0]+'">'+l[1]+'</label><input class="field mono" id="lim-'+l[0]+'" type="number" min="0" step="1" inputmode="numeric" data-limit="'+l[0]+'" value="'+esc(b.limits[l[0]])+'"></div>'; });
+  h+='</div></div></div>';
+  h+='<div class="card pad"><div class="card-h">Capabilities</div><div class="fgrid" style="gap:0 48px">';
+  CAPS.forEach(function(c){ h+='<div class="frow"><div><div class="n">'+c[1]+'</div><div class="d">'+c[2]+'</div></div>'+tog(!!b.caps[c[0]],'data-cap="'+c[0]+'" aria-label="'+esc(c[1])+'"')+'</div>'; });
+  h+='</div></div></div>';
+  return h;
+}
+
+function panelBranding(b){
+  var c=b.branding.colors;
+  var h='<div class="stack"><div class="grid g2">';
+  h+='<div class="card pad"><div class="brand-id">'+plateHTML(b)+'<div><div class="name">'+esc(b.name)+'</div><div class="cap">Logo plate</div></div></div>'
+    +'<label class="label" for="brandFont">Font</label><select class="field" id="brandFont" data-branding="font">'
+    +['Gilroy','Brand upload','Inter'].map(function(f){ return '<option'+(b.branding.font===f?' selected':'')+'>'+f+'</option>'; }).join('')
+    +'</select>'
+    +'<div class="card-h" style="margin:32px 0 4px">Logo placement</div>';
+  PLACEMENTS.forEach(function(p){ h+='<div class="frow"><div class="n">'+p[1]+'</div>'+tog(!!b.branding.placement[p[0]],'data-place="'+p[0]+'" aria-label="'+p[1]+'"')+'</div>'; });
+  h+='</div>';
+  h+='<div class="card pad"><div class="card-h">Palette</div><div class="swatches">';
+  [['canvas','Canvas'],['ink','Ink'],['accent','Accent'],['card','Card'],['muted','Muted']].forEach(function(s){
+    h+='<div class="sw"><div class="c" style="background:'+esc(c[s[0]])+'"></div><div class="k">'+s[1]+'</div><div class="v">'+esc(c[s[0]].toUpperCase())+'</div></div>';
+  });
+  h+='</div><div class="caption">Set by the brand in their studio.</div></div>';
+  h+='</div></div>';
+  return h;
+}
+
+/* ---------------- events ---------------- */
+document.getElementById('gateForm').addEventListener('submit', function(ev){
+  ev.preventDefault();
+  var pw=document.getElementById('pw'), note=document.getElementById('gateNote');
+  if(pw.value===PASSWORD){
+    setCookie(); pw.classList.remove('err'); note.classList.remove('show');
+    swap(gateEl, appEl, function(){ route(); window.scrollTo(0,0); });
+  }else{
+    pw.classList.add('err'); note.classList.add('show'); pw.select();
+  }
+});
+document.getElementById('pw').addEventListener('input', function(){ this.classList.remove('err'); document.getElementById('gateNote').classList.remove('show'); });
+
+document.getElementById('signOut').addEventListener('click', function(){
+  clearCookie();
+  swap(appEl, gateEl, function(){ document.getElementById('pw').value=''; document.getElementById('pw').classList.remove('err'); document.getElementById('gateNote').classList.remove('show'); setTimeout(function(){ document.getElementById('pw').focus(); },60); });
+});
+
+document.addEventListener('click', function(ev){
+  var t=ev.target.closest('[data-go],[data-manage],[data-tab],[data-preset],[data-segtog],[data-grouptog],[data-cap],[data-place],#signInAs,#suspendTog');
+  if(!t) return;
+  var ui=DB.ui||{}, b=brand(ui.brand);
+
+  if(t.hasAttribute('data-go')){ ev.preventDefault(); go('brands'); return; }
+  if(t.hasAttribute('data-manage')){ go('manage', t.getAttribute('data-manage'), 'overview'); return; }
+  if(t.hasAttribute('data-tab')){ go('manage', ui.brand, t.getAttribute('data-tab')); return; }
+  if(!b) return;
+
+  if(t.id==='signInAs'){
+    window.open(b.link, '_blank', 'noopener');
+    toast('Signed in as '+b.name+'. Opening their workspace.');
+    return;
+  }
+  if(t.hasAttribute('data-preset')){
+    b.segments=presetSet(t.getAttribute('data-preset'));
+    save(); renderManage(b,'segments'); return;
+  }
+  if(t.hasAttribute('data-segtog')){
+    var id=t.getAttribute('data-segtog'); b.segments[id]=!b.segments[id];
+    t.setAttribute('aria-checked', b.segments[id]?'true':'false');
+    t.closest('.seg').classList.toggle('off', !b.segments[id]);
+    save(); refreshSegmentChrome(b); return;
+  }
+  if(t.hasAttribute('data-grouptog')){
+    var gname=t.getAttribute('data-grouptog'), on=t.getAttribute('aria-checked')!=='true';
+    GROUPS.forEach(function(g){ if(g.name===gname) g.segs.forEach(function(s){ b.segments[s[0]]=on; }); });
+    save(); renderManage(b,'segments'); return;
+  }
+  if(t.id==='suspendTog'){
+    var susp=t.getAttribute('aria-checked')!=='true';
+    if(susp){ if(b.status!=='SUSPENDED'){ b.prevStatus=b.status; } b.status='SUSPENDED'; }
+    else { b.status=b.prevStatus||'ACTIVE'; b.prevStatus=null; b.access.lapsed=false; }
+    t.setAttribute('aria-checked', susp?'true':'false');
+    document.getElementById('mastStatus').innerHTML=statusLine(b.status);
+    var rh=document.getElementById('renewHelp'); if(rh) rh.textContent=accessLine(b);
+    save(); return;
+  }
+  if(t.hasAttribute('data-cap')){
+    var ck=t.getAttribute('data-cap'); b.caps[ck]=!b.caps[ck]; t.setAttribute('aria-checked', b.caps[ck]?'true':'false'); save(); return;
+  }
+  if(t.hasAttribute('data-place')){
+    var pk=t.getAttribute('data-place'); b.branding.placement[pk]=!b.branding.placement[pk]; t.setAttribute('aria-checked', b.branding.placement[pk]?'true':'false'); save(); return;
+  }
+});
+
+document.addEventListener('change', function(ev){
+  var t=ev.target, b=brand((DB.ui||{}).brand); if(!b) return;
+  if(t.hasAttribute('data-access')){
+    var k=t.getAttribute('data-access'); b.access[k]=t.value;
+    if(k==='renews' && t.value) b.access.lapsed=false;
+    var rh=document.getElementById('renewHelp'); if(rh) rh.textContent=accessLine(b);
+    save(); return;
+  }
+  if(t.hasAttribute('data-limit')){
+    var n=parseInt(t.value,10); if(isNaN(n)||n<0) n=0; t.value=n; b.limits[t.getAttribute('data-limit')]=n; save(); return;
+  }
+  if(t.hasAttribute('data-branding')){ b.branding[t.getAttribute('data-branding')]=t.value; save(); return; }
+});
+
+function refreshSegmentChrome(b){
+  var c=document.getElementById('segCounter'); if(c) c.textContent=counterText(b);
+  var cur=currentPreset(b);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-preset]'), function(p){ p.classList.toggle('on', p.getAttribute('data-preset')===cur); });
+  GROUPS.forEach(function(g){
+    var sec=document.querySelector('[data-group="'+g.name.replace(/"/g,'\\"')+'"]'); if(!sec) return;
+    var on=g.segs.filter(function(s){ return b.segments[s[0]]; }).length;
+    sec.querySelector('[data-groupcount]').textContent=on+' / '+g.segs.length+' on';
+    sec.querySelector('[data-grouptog]').setAttribute('aria-checked', on===g.segs.length?'true':'false');
+  });
+}
+
+/* ---------------- boot ---------------- */
+DB=load();
+if(hasCookie()) showApp(); else showGate();
+})();
+</script>
+</body>
+</html>
