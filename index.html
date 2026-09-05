@@ -28,7 +28,6 @@
   --ink:#000000;--paper:#FFFFFF;--grey:#E3E4E5;--cyan:#75E2FF;
   --muted:#55585B;--sub:#3A3D40;--hair:#C6C8CA;--ph:#9EA1A4;--err:#EB937E;
   --dark-muted:#9EA1A4;
-  --surface:rgba(227,228,229,.38);
   --ease:cubic-bezier(0.45,0,0.15,1);
   --ui:.18s;--screen:.5s;
   --sans:Gilroy,"Helvetica Neue",Arial,sans-serif;
@@ -111,11 +110,11 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 .tog[aria-checked=true] .k{background:var(--cyan);transform:translateX(19px)}
 
 /* ---------- surfaces · F7, F21 ---------- */
-.card{background:var(--surface);border-radius:24px;padding:32px}
+.card{background:var(--paper);border:1px solid var(--hair);border-radius:24px;padding:32px}
 .logo{height:56px;max-width:200px;display:flex;align-items:center;flex:none}
 .logo img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:left center}
 .logo.lg{height:72px;max-width:220px}
-.face{width:64px;height:64px;border-radius:999px;background:var(--grey);display:flex;align-items:center;justify-content:center;flex:none}
+.face{width:64px;height:64px;border-radius:999px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
 .face .mono-letter{font:800 24px/1 var(--sans);letter-spacing:-.02em}
 .face.lg{width:80px;height:80px}
 .face.lg .mono-letter{font-size:30px}
@@ -127,7 +126,7 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-16px,-22px,0)}}
 @keyframes dawn{from{transform:scale(1) translate3d(0,0,0)}to{transform:scale(1.12) translate3d(-2%,2%,0)}}
-@keyframes breathe{from{opacity:.5}to{opacity:1}}
+@keyframes lift{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-24px,0)}}
 .stagger>*{animation:rise .5s var(--ease) both}
 .stagger>*:nth-child(2){animation-delay:60ms}
 .stagger>*:nth-child(3){animation-delay:120ms}
@@ -139,13 +138,13 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 /* ---------- the gate · Scene 01 at web scale · Paper Fade + Hero Dot edge-crop ---------- */
 #gate{position:fixed;inset:0;overflow:hidden;background:var(--paper);color:var(--ink)}
 .gate-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.gate-fade{position:absolute;inset:0;background:linear-gradient(180deg,#FFFFFF 30%,#E3E4E5 140%);animation:breathe 12s var(--ease) infinite alternate}
-.gate-dot{position:absolute;left:58%;top:30%;width:150vh;height:150vh;border-radius:999px;background:var(--cyan);animation:drift 11s var(--ease) infinite alternate}
-.gate-sat{position:absolute;right:15%;top:11%;width:104px;height:104px;border-radius:999px;border:1.5px solid var(--ink);animation:drift 9.4s var(--ease) -3.1s infinite alternate-reverse}
+.gate-dot{position:absolute;left:50%;top:78%;width:160vh;height:160vh;margin-left:-80vh;border-radius:999px;background:var(--cyan);animation:lift 11s var(--ease) infinite alternate}
+.gate-sat{position:absolute;right:12%;top:13%;width:96px;height:96px;border-radius:999px;border:1.5px solid var(--ink);animation:drift 9.4s var(--ease) -3.1s infinite alternate-reverse}
 .gate-scroll{position:relative;z-index:1;height:100%;overflow:auto;display:flex;flex-direction:column;padding:clamp(28px,7.4vmin,80px)}
-#gate .scene{flex:1;display:flex;align-items:center;padding:32px 0}
-#gate .zone{width:100%;max-width:600px}
-#gate form,#gate .lede{max-width:460px}
+#gate .scene{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px 0}
+#gate .zone{width:100%;max-width:600px;margin:0 auto}
+#gate form,#gate .lede{max-width:440px;margin-left:auto;margin-right:auto}
+#gate .label,#gate .note{text-align:left}
 #gate .eyebrow{margin-bottom:28px}
 #gate .h1{margin-bottom:16px}
 #gate .lede{font:500 20px/1.5 var(--sans);color:var(--sub);margin-bottom:48px}
@@ -183,11 +182,10 @@ footer.foot .right{font:600 14px/1 var(--sans)}
 .brand .status{margin-top:10px}
 .brand .kv{margin-top:24px}
 .brand .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:auto;padding-top:28px}
-.brand .foot .ghost{text-decoration-color:transparent}
-.brand:hover .foot .ghost{text-decoration-color:var(--cyan)}
+.brand:hover .btn.secondary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 
 /* key-value rows · F22 */
-.kv .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-bottom:1px solid var(--hair);padding:12px 0}
+.kv .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-bottom:1px solid var(--grey);padding:12px 0}
 .kv .row:last-child{border-bottom:0}
 .kv .k{font:300 11px/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);flex:none}
 .kv .v{font:400 13px/1.4 var(--mono);text-align:right;min-width:0;overflow-wrap:anywhere}
@@ -196,7 +194,7 @@ footer.foot .right{font:600 14px/1 var(--sans)}
 .scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
 th{font:300 11px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 12px 14px 0;border-bottom:1px solid var(--ink);white-space:nowrap}
-td{padding:18px 12px 18px 0;border-bottom:1px solid var(--hair);font:500 15px/1.4 var(--sans);vertical-align:middle}
+td{padding:18px 12px 18px 0;border-bottom:1px solid var(--grey);font:500 15px/1.4 var(--sans);vertical-align:middle}
 tr:last-child td{border-bottom:0}
 td.mono{font:400 13px/1.5 var(--mono);white-space:nowrap}
 td.num,th.num{text-align:right;padding-right:0;padding-left:24px;white-space:nowrap}
@@ -239,11 +237,11 @@ td .status{white-space:nowrap}
 /* access, branding */
 .g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.frow{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 0;border-bottom:1px solid var(--hair)}
+.frow{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 0;border-bottom:1px solid var(--grey)}
 .frow:last-child{border-bottom:0}
 .frow .n{font:600 15px/1.3 var(--sans)}
 .frow .d{font:500 13px/1.5 var(--sans);color:var(--muted);margin-top:2px}
-.suspend{margin-top:32px;padding-top:24px;border-top:1px solid var(--hair)}
+.suspend{margin-top:32px;padding-top:24px;border-top:1px solid var(--grey)}
 .suspend .frow{padding:0;border:0}
 .suspend .note{font:500 13px/1.5 var(--sans);color:var(--err);margin-top:12px}
 .caps{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
@@ -290,16 +288,16 @@ td .status{white-space:nowrap}
   .seg .t{flex-basis:100%}
   .seg .tag{width:auto;flex:1}
   .swatches{grid-template-columns:repeat(3,1fr)}
-  .gate-dot{left:32%;top:74%;width:120vh;height:120vh}
-  .gate-sat{right:8%;top:56%;width:72px;height:72px}
-  #gate .scene{align-items:flex-start;padding-top:12px}
+  .gate-dot{top:82%;width:140vh;height:140vh;margin-left:-70vh}
+  .gate-sat{display:none}
+  #gate .scene{align-items:flex-start;padding-top:56px}
   #gate .lede{margin-bottom:36px}
   main{padding-bottom:96px}
 }
 
 /* reduced motion · freeze the loops, keep the fades */
 @media (prefers-reduced-motion:reduce){
-  .gate-fade,.gate-dot,.gate-sat,.dawn::before{animation:none!important}
+  .gate-dot,.gate-sat,.dawn::before{animation:none!important}
   .stagger>*,#panel{animation:rise .3s var(--ease) both}
   @keyframes rise{from{opacity:0}to{opacity:1}}
   #toast{transform:translate(-50%,0)}
@@ -309,7 +307,7 @@ td .status{white-space:nowrap}
 <body>
 
 <section id="gate" class="screen" hidden>
-  <div class="gate-bg" aria-hidden="true"><div class="gate-fade"></div><div class="gate-dot"></div><div class="gate-sat"></div></div>
+  <div class="gate-bg" aria-hidden="true"><div class="gate-dot"></div><div class="gate-sat"></div></div>
   <div class="gate-scroll">
     <div class="scene">
       <div class="zone">
@@ -672,8 +670,8 @@ function renderBrands(){
         +kv('Segments', segCount(b)+' / '+SEGS.length)
       +'</div>'
       +'<div class="foot">'
-        +'<a class="btn secondary sm" href="'+esc(b.link)+'" target="_blank" rel="noopener">Open workspace</a>'
-        +'<span class="ghost">Manage</span>'
+        +'<button class="btn secondary sm" type="button" data-manage="'+esc(b.id)+'">Manage workspace</button>'
+        +'<a class="ghost" href="'+esc(b.link)+'" target="_blank" rel="noopener">Open</a>'
       +'</div>'
       +'</article>';
   });
