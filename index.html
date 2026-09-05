@@ -288,7 +288,7 @@ td.name{font-weight:700}
 'use strict';
 
 /* ---------------- constants ---------------- */
-var PASSWORD = 'dotment';
+var PASSWORD = '121211';
 var STORE_KEY = 'dotment-control-center';
 var COOKIE = 'dcc_session';
 var ME = 'belal@dotment.com';
@@ -411,7 +411,7 @@ function withDiffs(set, offs, ons){
 function seed(){
   var inc = {};
   SEGS.forEach(function(s){ inc[s.id] = INCIRCLE_ON.indexOf(s.id)>=0; });
-  return { v:1, ui:{view:'brands',brand:null,tab:'overview'}, brands:[
+  return { v:2, ui:{view:'brands',brand:null,tab:'overview'}, brands:[
     {
       id:'incircle', name:'InCircle', slug:'incircle', link:'https://incircle.vercel.app', logo:'assets/logos/incircle.png',
       plan:'Enterprise', status:'ACTIVE', prevStatus:null,
@@ -433,7 +433,7 @@ function seed(){
       branding:{colors:{canvas:'#F0F8FC', ink:'#1A1A1A', accent:'#9EBBF1', card:'#FFFFFF', muted:'#8A9093'}, font:'Gilroy', placement:{phones:true, bigscreen:true, join:true, emails:true}}
     },
     {
-      id:'northline', name:'Northline Bank', slug:'northline', link:'https://northline.dotment.com', logo:null,
+      id:'snbc', name:'SNBC Bank', slug:'snbc', link:'https://snbc.dotment.com', logo:null,
       plan:'Growth', status:'ACTIVE', prevStatus:null,
       access:{period:'Monthly', renews:'2026-10-01', lapsed:false},
       timezone:'Africa/Cairo', roster:140,
@@ -441,9 +441,9 @@ function seed(){
         {name:'Leaders Offsite', date:'2026-09-17T18:30', status:'UPCOMING', attendees:140, checkedIn:0}
       ],
       team:[
-        {name:'Dina Mansour', email:'dina@northline.example', role:'OWNER'},
-        {name:'Karim Sabry', email:'karim@northline.example', role:'ADMIN'},
-        {name:'Salma Ezz', email:'salma@northline.example', role:'OPERATOR'}
+        {name:'Dina Mansour', email:'dina.mansour@snbc.example', role:'OWNER'},
+        {name:'Karim Sabry', email:'karim.sabry@snbc.example', role:'ADMIN'},
+        {name:'Salma Ezz', email:'salma.ezz@snbc.example', role:'OPERATOR'}
       ],
       segments: withDiffs(presetSet('GROWTH'), ['bingo','slides'], ['awards']),
       limits:{eventsPerMonth:4, attendeesPerEvent:250, operatorSeats:3, bigScreens:2},
@@ -451,58 +451,21 @@ function seed(){
       branding:{colors:{canvas:'#F4F1EA', ink:'#141414', accent:'#1F4E79', card:'#FFFFFF', muted:'#7A7F84'}, font:'Brand upload', placement:{phones:true, bigscreen:true, join:true, emails:false}}
     },
     {
-      id:'orbit', name:'Orbit Coworking', slug:'orbit', link:'https://orbit.dotment.com', logo:null,
+      id:'hsa', name:'HSA', slug:'hsa', link:'https://hsa.dotment.com', logo:null,
       plan:'Starter', status:'TRIAL', prevStatus:null,
       access:{period:'Per agreement', renews:'2026-11-30', lapsed:false},
       timezone:'Asia/Dubai', roster:60,
       events:[
-        {name:'Founders Mixer', date:'2026-10-08T19:00', status:'UPCOMING', attendees:60, checkedIn:0}
+        {name:'Team Day', date:'2026-10-08T19:00', status:'UPCOMING', attendees:60, checkedIn:0}
       ],
       team:[
-        {name:'Layla Haddad', email:'layla@orbit.example', role:'OWNER'},
-        {name:'Ravi Menon', email:'ravi@orbit.example', role:'OPERATOR'}
+        {name:'Layla Haddad', email:'layla@hsa.example', role:'OWNER'},
+        {name:'Ravi Menon', email:'ravi@hsa.example', role:'OPERATOR'}
       ],
       segments: withDiffs(presetSet('STARTER'), ['reactions','wordcloud'], ['quiz','speed']),
       limits:{eventsPerMonth:2, attendeesPerEvent:100, operatorSeats:1, bigScreens:1},
       caps:{whitelabel:false, domain:false, recap:true, excel:true, ai:false, rehearsal:true, reports:false, templates:false},
-      branding:{colors:{canvas:'#FFFFFF', ink:'#0B0B0B', accent:'#FF7A59', card:'#F6F6F6', muted:'#8C9196'}, font:'Inter', placement:{phones:true, bigscreen:true, join:false, emails:false}}
-    },
-    {
-      id:'lumen', name:'Lumen Academy', slug:'lumen', link:'https://lumen.dotment.com', logo:null,
-      plan:'Growth', status:'ACTIVE', prevStatus:null,
-      access:{period:'Yearly', renews:'2027-03-15', lapsed:false},
-      timezone:'Africa/Cairo', roster:220,
-      events:[
-        {name:'Cohort Graduation', date:'2026-07-22T18:00', status:'ARCHIVED', attendees:220, checkedIn:168},
-        {name:'Autumn Kickoff', date:'2026-09-29T17:00', status:'UPCOMING', attendees:220, checkedIn:0}
-      ],
-      team:[
-        {name:'Youssef Kamal', email:'youssef@lumen.example', role:'OWNER'},
-        {name:'Hana Tarek', email:'hana@lumen.example', role:'ADMIN'},
-        {name:'Ali Nabil', email:'ali@lumen.example', role:'OPERATOR'},
-        {name:'Farida Samy', email:'farida@lumen.example', role:'OPERATOR'}
-      ],
-      segments: withDiffs(presetSet('GROWTH'), ['predictions','story','net-goals'], ['sponsor']),
-      limits:{eventsPerMonth:4, attendeesPerEvent:250, operatorSeats:3, bigScreens:2},
-      caps:{whitelabel:false, domain:true, recap:true, excel:true, ai:true, rehearsal:true, reports:true, templates:true},
-      branding:{colors:{canvas:'#FBF7EF', ink:'#1C1B18', accent:'#E0B24A', card:'#FFFFFF', muted:'#8A8578'}, font:'Gilroy', placement:{phones:true, bigscreen:true, join:true, emails:true}}
-    },
-    {
-      id:'harbor', name:'Harbor & Co.', slug:'harbor', link:'https://harbor.dotment.com', logo:null,
-      plan:'Starter', status:'SUSPENDED', prevStatus:'ACTIVE',
-      access:{period:'Monthly', renews:'2026-08-01', lapsed:true},
-      timezone:'Europe/London', roster:45,
-      events:[
-        {name:'Summer Social', date:'2026-06-11T18:30', status:'ARCHIVED', attendees:45, checkedIn:38}
-      ],
-      team:[
-        {name:'Grace Whitmore', email:'grace@harbor.example', role:'OWNER'},
-        {name:'Tom Ashby', email:'tom@harbor.example', role:'OPERATOR'}
-      ],
-      segments: withDiffs(presetSet('STARTER'), ['countdown','announce'], ['photo-wall']),
-      limits:{eventsPerMonth:2, attendeesPerEvent:100, operatorSeats:1, bigScreens:1},
-      caps:{whitelabel:false, domain:false, recap:false, excel:true, ai:false, rehearsal:false, reports:false, templates:false},
-      branding:{colors:{canvas:'#EEF2F4', ink:'#10161A', accent:'#2E6F73', card:'#FFFFFF', muted:'#7C8790'}, font:'Gilroy', placement:{phones:true, bigscreen:false, join:true, emails:false}}
+      branding:{colors:{canvas:'#FFFFFF', ink:'#0B0B0B', accent:'#2E6F73', card:'#F6F6F6', muted:'#8C9196'}, font:'Gilroy', placement:{phones:true, bigscreen:true, join:false, emails:false}}
     }
   ]};
 }
@@ -512,7 +475,7 @@ var DB = null;
 function load(){
   try{
     var raw = localStorage.getItem(STORE_KEY);
-    if(raw){ var d = JSON.parse(raw); if(d && d.v===1 && d.brands) return d; }
+    if(raw){ var d = JSON.parse(raw); if(d && d.v===2 && d.brands) return d; }
   }catch(e){}
   var s = seed();
   try{ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }catch(e){}
