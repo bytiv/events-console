@@ -736,7 +736,7 @@ function panelSegments(b){
   var cur=currentPreset(b);
   var h='<div class="segwrap"><div class="seg-head"><h2 class="h2">What '+esc(b.name)+' can run<span class="period">.</span></h2><div class="counter" id="segCounter">'+counterText(b)+'</div></div>';
   h+='<div class="presets"><span class="cap">Presets</span>';
-  [['STARTER','Starter'],['GROWTH','Growth'],['FULL','Everything']].forEach(function(p){ h+='<button type="button" class="pill'+(cur===p[0]?' on':'')+'" data-preset="'+p[0]+'">'+p[1]+'</button>'; });
+  [['STARTER','Starter'],['GROWTH','Growth'],['FULL','Enterprise']].forEach(function(p){ h+='<button type="button" class="pill'+(cur===p[0]?' on':'')+'" data-preset="'+p[0]+'">'+p[1]+'</button>'; });
   h+='</div>';
   GROUPS.forEach(function(g){
     var on=g.segs.filter(function(s){ return b.segments[s[0]]; }).length;
