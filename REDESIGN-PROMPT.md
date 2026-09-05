@@ -1,6 +1,6 @@
 # DOTMENT Control Center — visual redesign prompt
 
-You are redesigning the look of an existing, working one-page web app. The app is finished technically. Its look is not. Your job is to give it a premium, elegant, corporate visual identity that feels comfortable to the eye, with the calm spacing and restraint of an Apple product page, while keeping every piece of content and every function exactly as it works today.
+You are redesigning the look of an existing, working one-page web app. The app is finished technically. Its look is not. Your job is to give it a premium, elegant, corporate visual identity that feels comfortable to the eye, with the calm spacing and restraint of an Apple product page, while keeping every function exactly as it works today. What each control does is fixed. What it looks like, and to a degree what it is called, is yours to decide.
 
 ## The app
 
@@ -29,7 +29,11 @@ Before you design anything, produce a written inventory of the app as it is and 
 - Every behaviour: what saves, what shows a toast, what persists on refresh, what opens in a new tab, what the suspend toggle changes elsewhere, how the segment counter and group toggles update, how sign-in and sign-out work.
 - The data model, storage keys, cookie name, seed version, and the sync of static fields from the seed.
 
-Then remove the current visual identity completely. Delete every style. Keep the HTML structure only where it carries content or hooks the JavaScript uses (ids, `data-` attributes, classes the script reads). Keep the JavaScript's behaviour intact. You may restructure markup and rename classes as your design needs, as long as every item in the inventory still exists and still works. This applies to all screens including the gate. Start visually from a blank page.
+Then remove the current visual identity completely. Delete every style. Keep the HTML structure only where it carries content or hooks the JavaScript uses (ids, `data-` attributes, classes the script reads). Keep the JavaScript's behaviour intact. You may restructure markup and rename classes as your design needs, as long as every function in the inventory still exists and still works. This applies to all screens including the gate. Start visually from a blank page.
+
+**Controls are functions, not shapes.** When the inventory says "button", "toggle", "select" or "tab", it records what the thing does, not how it must look. A button may become a text link, a row you click, a card that is itself the action, an icon with a label, or anything else that reads clearly and fits the design. A toggle may become a different kind of switch. Tabs may become a segmented control, a side rail, or a scrolling page with anchors. Two rules hold: the function must be reachable and obvious, and the same function must look the same everywhere it appears.
+
+**Names may move too.** The labels in the inventory are the current wording, not scripture. Keep the meaning, but rename anything if a shorter, warmer or more precise label fits the design better. `SIGN IN AS BRAND` can become `Open their workspace`, `MANAGE` can become `Manage` or a simple arrow, `FULL LIBRARY` can become `Everything`. Keep the DOTMENT voice: sentence case, short, human, ends with a period where it is a sentence. Do not rename things that are data, such as brand names, segment names, plan names, tier names, emails and links.
 
 ## Step 2 — the design direction
 
@@ -55,8 +59,8 @@ Get creative. This is the part where you have freedom. The constraints below are
 
 ## Step 3 — what to keep unchanged
 
-- All content, all controls, all behaviours in the inventory. If a design decision genuinely needs a piece of content to move, merge, or change shape, do it, but hold the function. When in doubt, keep it.
-- The password constant, the seed data, the storage keys, the seed version and the static-field sync. A browser that already holds data must keep its toggles and settings after your change.
+- Every behaviour in the inventory. Content may move, merge, or change shape, and controls may take any form and any wording that fits, as long as the function survives and stays easy to find. When in doubt about a function, keep it.
+- The password constant, the seed data, the storage keys, the seed version and the static-field sync. Brand names, segment names and descriptions, plan and tier names, team names and emails, and links are data and stay as they are. A browser that already holds data must keep its toggles and settings after your change.
 - Brand logos shown as they are, without a circle plate around them.
 - The favicon, the page title, the account email in the header, the brand links.
 - No text on screen that says demo, prototype, placeholder, lorem or TODO. It must look deployed.
@@ -68,7 +72,7 @@ Serve over http in a headless browser and walk it: gate, wrong password, right p
 
 Commit the work in the repo with a clear message. Do not deploy.
 
-Report back with: the screenshots, a short note per screen naming which Foundations devices it uses, anything from the inventory you changed and why, and anything you could not verify.
+Report back with: the screenshots, a short note per screen naming which Foundations devices it uses, a list of every control whose form or label you changed with the old and new version side by side, and anything you could not verify.
 
 ## What good looks like
 
