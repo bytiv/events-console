@@ -124,8 +124,8 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 .screen.out{opacity:0;pointer-events:none}
 .screen.in{opacity:0}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-16px,-22px,0)}}
-@keyframes dawn{from{transform:scale(1) translate3d(0,0,0)}to{transform:scale(1.12) translate3d(-2%,2%,0)}}
+@keyframes dawnA{from{opacity:1}to{opacity:.8}}
+@keyframes dawnB{from{opacity:0}to{opacity:1}}
 @keyframes lift{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-24px,0)}}
 .stagger>*{animation:rise .5s var(--ease) both}
 .stagger>*:nth-child(2){animation-delay:60ms}
@@ -136,21 +136,21 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 #panel{animation:rise .5s var(--ease) both}
 
 /* ---------- the gate · Scene 01 at web scale · Paper Fade + Hero Dot edge-crop ---------- */
-#gate{position:fixed;inset:0;overflow:hidden;background:var(--paper);color:var(--ink)}
+#gate{position:fixed;inset:0;overflow:hidden;color:var(--ink);background:linear-gradient(180deg,rgba(117,226,255,.07) 0%,rgba(117,226,255,.20) 100%) var(--paper)}
 .gate-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .gate-dot{position:absolute;left:50%;top:78%;width:160vh;height:160vh;margin-left:-80vh;border-radius:999px;background:var(--cyan);animation:lift 11s var(--ease) infinite alternate}
-.gate-sat{position:absolute;right:12%;top:13%;width:96px;height:96px;border-radius:999px;border:1.5px solid var(--ink);animation:drift 9.4s var(--ease) -3.1s infinite alternate-reverse}
+.gate-dots{position:absolute;inset:0;display:block;width:100%;height:100%}
 .gate-scroll{position:relative;z-index:1;height:100%;overflow:auto;display:flex;flex-direction:column;padding:clamp(28px,7.4vmin,80px)}
 #gate .scene{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px 0}
 #gate .zone{width:100%;max-width:600px;margin:0 auto}
 #gate form,#gate .lede{max-width:440px;margin-left:auto;margin-right:auto}
-#gate .label,#gate .note{text-align:left}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 #gate .eyebrow{margin-bottom:28px}
 #gate .h1{margin-bottom:16px}
 #gate .lede{font:500 20px/1.5 var(--sans);color:var(--sub);margin-bottom:48px}
 #pw{font-family:var(--mono);letter-spacing:.14em}
 #pw::placeholder{font-family:var(--sans);letter-spacing:0}
-#gate .note{min-height:20px;font:500 13px/1.5 var(--sans);color:var(--err);margin:10px 0 20px;opacity:0;transition:opacity var(--ui) var(--ease)}
+#gate .note{min-height:20px;font:500 13px/1.5 var(--sans);color:var(--err);margin:12px 0 20px;opacity:0;transition:opacity var(--ui) var(--ease)}
 #gate .note.show{opacity:1}
 #gate .rail{display:flex;justify-content:space-between;align-items:baseline}
 #gate .rail .site{font:300 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
@@ -158,7 +158,9 @@ input[type=number].field::-webkit-outer-spin-button,input[type=number].field::-w
 /* ---------- app frame · F23 nav and footer ---------- */
 #app{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
 .dawn{position:absolute;left:0;right:0;top:0;height:760px;overflow:hidden;pointer-events:none;z-index:0}
-.dawn::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 95% at 100% 0%,rgba(117,226,255,.36) 0%,rgba(117,226,255,0) 55%);transform-origin:100% 0;animation:dawn 12s var(--ease) infinite alternate}
+.dawn::before,.dawn::after{content:"";position:absolute;inset:0}
+.dawn::before{background:radial-gradient(120% 95% at 100% 0%,rgba(117,226,255,.32) 0%,rgba(117,226,255,0) 55%);animation:dawnA 12s var(--ease) infinite alternate}
+.dawn::after{background:radial-gradient(80% 70% at 100% 0%,rgba(117,226,255,.26) 0%,rgba(117,226,255,0) 62%);opacity:0;animation:dawnB 9s var(--ease) -4s infinite alternate}
 #app>header,#app>main,#app>footer{position:relative;z-index:1}
 .wrap{width:100%;max-width:1248px;margin:0 auto;padding:0 24px}
 header.top .wrap{height:84px;display:flex;align-items:center;justify-content:space-between}
@@ -289,7 +291,6 @@ td .status{white-space:nowrap}
   .seg .tag{width:auto;flex:1}
   .swatches{grid-template-columns:repeat(3,1fr)}
   .gate-dot{top:82%;width:140vh;height:140vh;margin-left:-70vh}
-  .gate-sat{display:none}
   #gate .scene{align-items:flex-start;padding-top:56px}
   #gate .lede{margin-bottom:36px}
   main{padding-bottom:96px}
@@ -297,7 +298,7 @@ td .status{white-space:nowrap}
 
 /* reduced motion · freeze the loops, keep the fades */
 @media (prefers-reduced-motion:reduce){
-  .gate-dot,.gate-sat,.dawn::before{animation:none!important}
+  .gate-dot,.dawn::before,.dawn::after{animation:none!important}
   .stagger>*,#panel{animation:rise .3s var(--ease) both}
   @keyframes rise{from{opacity:0}to{opacity:1}}
   #toast{transform:translate(-50%,0)}
@@ -307,7 +308,7 @@ td .status{white-space:nowrap}
 <body>
 
 <section id="gate" class="screen" hidden>
-  <div class="gate-bg" aria-hidden="true"><div class="gate-dot"></div><div class="gate-sat"></div></div>
+  <div class="gate-bg" aria-hidden="true"><canvas class="gate-dots" id="gateDots"></canvas><div class="gate-dot"></div></div>
   <div class="gate-scroll">
     <div class="scene">
       <div class="zone">
@@ -315,8 +316,8 @@ td .status{white-space:nowrap}
         <h1 class="h1 xl">Nice to see you<span class="period">.</span></h1>
         <p class="lede">The console above every workspace.</p>
         <form id="gateForm" novalidate>
-          <label class="label" for="pw">Password</label>
-          <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Your console password" spellcheck="false">
+          <label class="sr-only" for="pw">Password</label>
+          <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Enter your password" spellcheck="false">
           <div class="note" id="gateNote">That's not it. Try again.</div>
           <button class="btn" type="submit">Enter</button>
         </form>
@@ -890,6 +891,45 @@ function refreshSegmentChrome(b){
     sec.querySelector('[data-grouptog]').setAttribute('aria-checked', on===g.segs.length?'true':'false');
   });
 }
+
+/* ---------------- gate dot field · Dot-Grid Paper that swells around the pointer ---------------- */
+(function(){
+  var cv=document.getElementById('gateDots'); if(!cv||!cv.getContext) return;
+  var ctx=cv.getContext('2d'), W=0, H=0, pts=[], PITCH=20, BASE=1.5, REACH=170;
+  var reduce=!!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var tx=0, ty=0, cx=0, cy=0, amp=0, tAmp=0, raf=null;
+  function size(){
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    W=window.innerWidth; H=window.innerHeight;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    pts=[]; var ox=((W%PITCH)/2), oy=((H%PITCH)/2);
+    for(var y=oy;y<=H;y+=PITCH) for(var x=ox;x<=W;x+=PITCH) pts.push(x,y);
+    draw();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    var r2=REACH*REACH, n=pts.length, i, x, y, dx, dy, d2, k, r, a;
+    for(i=0;i<n;i+=2){
+      x=pts[i]; y=pts[i+1]; k=0;
+      if(amp>0.002){ dx=x-cx; dy=y-cy; d2=dx*dx+dy*dy; if(d2<r2*3) k=amp*Math.exp(-d2/(r2*0.45)); }
+      r=BASE*(1+1.4*k); a=0.065+0.13*k;
+      ctx.beginPath(); ctx.arc(x,y,r,0,6.28318); ctx.fillStyle='rgba(0,0,0,'+a.toFixed(3)+')'; ctx.fill();
+    }
+  }
+  function tick(){
+    cx+=(tx-cx)*0.14; cy+=(ty-cy)*0.14; amp+=(tAmp-amp)*0.1;
+    draw();
+    if(Math.abs(tx-cx)>0.3||Math.abs(ty-cy)>0.3||Math.abs(tAmp-amp)>0.004) raf=requestAnimationFrame(tick); else { raf=null; if(amp<0.004){ amp=0; draw(); } }
+  }
+  function wake(){ if(!raf) raf=requestAnimationFrame(tick); }
+  if(!reduce){
+    gateEl.addEventListener('pointermove', function(e){ if(amp<0.01){ cx=e.clientX; cy=e.clientY; } tx=e.clientX; ty=e.clientY; tAmp=1; wake(); });
+    gateEl.addEventListener('pointerleave', function(){ tAmp=0; wake(); });
+  }
+  window.addEventListener('resize', size);
+  size();
+})();
 
 /* ---------------- boot ---------------- */
 DB=load();
